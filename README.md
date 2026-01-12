@@ -8,6 +8,14 @@ System for estimating academic teaching strength built with Django and PostgreSQ
 - Docker
 - Docker Compose
 
+## Environment Configuration
+
+The project supports two environment modes:
+- **dev**: Uses SQLite database (no PostgreSQL required)
+- **prod**: Uses PostgreSQL database (default in Docker Compose)
+
+Set the `ENVIRONMENT` variable in your `.env` file to switch between modes.
+
 ## Setup
 
 ### Quick Verification
@@ -35,6 +43,14 @@ cd sefad
 cp .env.example .env
 ```
 Edit the `.env` file with your custom configurations if needed.
+
+**For development with SQLite:**
+- Set `ENVIRONMENT=dev` in your `.env` file
+- No database container needed
+
+**For production with PostgreSQL:**
+- Set `ENVIRONMENT=prod` in your `.env` file (or remove it, prod is default)
+- Configure database credentials if needed
 
 3. Build and run the containers:
 ```bash
@@ -87,9 +103,40 @@ docker-compose logs db
 
 ## Development
 
-To run the application in development mode with auto-reload:
+### Running locally without Docker (Development Mode)
 
-1. Modify the `docker-compose.yml` command for the web service to use Django's development server:
+For local development using SQLite:
+
+1. Create a virtual environment and install dependencies:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+2. Create a `.env` file:
+```bash
+cp .env.example .env
+```
+Ensure `ENVIRONMENT=dev` is set in the `.env` file.
+
+3. Run migrations and start the development server:
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+The application will be available at `http://localhost:8000`
+
+### Running with Docker (Production Mode)
+
+To run the application in production mode with Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+Or to run with Django's development server inside Docker:
 ```bash
 docker-compose run --rm --service-ports web python manage.py runserver 0.0.0.0:8000
 ```
