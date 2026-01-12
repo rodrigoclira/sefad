@@ -10,6 +10,20 @@ System for estimating academic teaching strength built with Django and PostgreSQ
 
 ## Setup
 
+### Quick Verification
+
+Before running the project, you can verify that all files are correctly set up:
+```bash
+./verify-setup.sh
+```
+
+This script will check:
+- Python file syntax
+- Docker Compose configuration validity
+- Presence of all required files
+
+### Installation Steps
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/rodrigoclira/sefad.git
