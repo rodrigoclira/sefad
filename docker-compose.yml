@@ -17,6 +17,8 @@ services:
 
   web:
     build: .
+    # Note: Running migrations on every start is suitable for development
+    # For production, consider using a separate init container or manual migration step
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
