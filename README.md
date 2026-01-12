@@ -4,6 +4,18 @@ SEFAD - Sistema de Estimativa de Força Acadêmica Docente
 ## Description
 System for estimating academic teaching strength built with Django and PostgreSQL.
 
+The system includes:
+- **Courses Management**: Create and manage academic courses with semestral or yearly calendar types
+- **Disciplines Management**: Define disciplines within courses, including period, main area, and workload
+- Course program descriptions for effort calculation
+
+## Features
+- Course creation with calendar type configuration (semestral/yearly)
+- Discipline management with main area assignment for professor matching
+- Web interface for viewing courses and disciplines
+- Admin interface for data management
+- RESTful URL structure
+
 ## Prerequisites
 - Docker
 - Docker Compose
@@ -123,10 +135,14 @@ Ensure `ENVIRONMENT=dev` is set in the `.env` file.
 3. Run migrations and start the development server:
 ```bash
 python manage.py migrate
+python manage.py createsuperuser  # Create admin user
 python manage.py runserver
 ```
 
-The application will be available at `http://localhost:8000`
+The application will be available at:
+- Main site: `http://localhost:8000`
+- Courses: `http://localhost:8000/courses/`
+- Admin: `http://localhost:8000/admin/`
 
 ### Running with Docker (Production Mode)
 
@@ -150,6 +166,13 @@ sefad/
 │   ├── settings.py     # Project settings
 │   ├── urls.py         # URL configuration
 │   └── wsgi.py
+├── courses/            # Courses and disciplines app
+│   ├── models.py       # Course and Discipline models
+│   ├── admin.py        # Admin interface
+│   ├── views.py        # Web views
+│   ├── urls.py         # URL patterns
+│   ├── templates/      # HTML templates
+│   └── tests.py        # Test suite
 ├── manage.py           # Django management script
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile          # Docker image configuration
@@ -158,6 +181,17 @@ sefad/
 ├── .env.example        # Environment variables example
 └── README.md           # This file
 ```
+
+## Apps
+
+### Courses App
+Manages academic courses and disciplines. See [courses/README.md](courses/README.md) for detailed documentation.
+
+**Key Features:**
+- Course management with semestral/yearly calendar types
+- Discipline management with period and main area
+- Web interface for viewing and managing data
+- Admin interface with advanced filtering
 
 ## License
 This project is open source and available under the [MIT License](LICENSE).
