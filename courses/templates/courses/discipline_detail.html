@@ -1,0 +1,31 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{{ discipline.name }} - SEFAD{% endblock %}
+
+{% block content %}
+<h2>{{ discipline.name }}</h2>
+
+<div class="discipline-info">
+    <p><strong>Course:</strong> 
+        <a href="{% url 'courses:course_detail' discipline.course.pk %}">
+            {{ discipline.course.name }} ({{ discipline.course.get_calendar_type_display }})
+        </a>
+    </p>
+    <p><strong>Period:</strong> {{ discipline.period }}</p>
+    <p><strong>Main Area:</strong> <span class="badge">{{ discipline.main_area }}</span></p>
+    <p><strong>Workload:</strong> {{ discipline.workload_hours }} hours</p>
+    
+    {% if discipline.description %}
+    <h3>Description</h3>
+    <p>{{ discipline.description }}</p>
+    {% endif %}
+    
+    <p><em>Created: {{ discipline.created_at|date:"F d, Y" }} | Updated: {{ discipline.updated_at|date:"F d, Y" }}</em></p>
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Back to Disciplines</a>
+    <a href="{% url 'courses:course_detail' discipline.course.pk %}" class="btn btn-secondary">View Course</a>
+    <a href="/admin/courses/discipline/{{ discipline.pk }}/change/" class="btn btn-primary">Edit Discipline</a>
+</div>
+{% endblock %}

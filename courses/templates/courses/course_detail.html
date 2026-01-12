@@ -1,0 +1,55 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{{ course.name }} - SEFAD{% endblock %}
+
+{% block content %}
+<h2>{{ course.name }}</h2>
+
+<div class="course-info">
+    <p><strong>Calendar Type:</strong> <span class="badge">{{ course.get_calendar_type_display }}</span></p>
+    
+    {% if course.description %}
+    <h3>Description</h3>
+    <p>{{ course.description }}</p>
+    {% endif %}
+    
+    <p><em>Created: {{ course.created_at|date:"F d, Y" }} | Updated: {{ course.updated_at|date:"F d, Y" }}</em></p>
+</div>
+
+<h3>Disciplines ({{ disciplines.count }})</h3>
+
+{% if disciplines %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Period</th>
+                <th>Main Area</th>
+                <th>Workload (hours)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for discipline in disciplines %}
+            <tr>
+                <td>{{ discipline.name }}</td>
+                <td>{{ discipline.period }}</td>
+                <td>{{ discipline.main_area }}</td>
+                <td>{{ discipline.workload_hours }}</td>
+                <td>
+                    <a href="{% url 'courses:discipline_detail' discipline.pk %}" class="btn btn-primary">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No disciplines in this course yet.</p>
+{% endif %}
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Back to Courses</a>
+    <a href="/admin/courses/course/{{ course.pk }}/change/" class="btn btn-primary">Edit Course</a>
+    <a href="/admin/courses/discipline/add/?course={{ course.pk }}" class="btn btn-primary">Add Discipline</a>
+</div>
+{% endblock %}

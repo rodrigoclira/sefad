@@ -1,0 +1,56 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Disciplines - SEFAD{% endblock %}
+
+{% block content %}
+<h2>Disciplines</h2>
+
+{% if disciplines %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Period</th>
+                <th>Main Area</th>
+                <th>Workload (hours)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for discipline in disciplines %}
+            <tr>
+                <td>{{ discipline.name }}</td>
+                <td>
+                    <a href="{% url 'courses:course_detail' discipline.course.pk %}">
+                        {{ discipline.course.name }}
+                    </a>
+                </td>
+                <td>{{ discipline.period }}</td>
+                <td>{{ discipline.main_area }}</td>
+                <td>{{ discipline.workload_hours }}</td>
+                <td>
+                    <a href="{% url 'courses:discipline_detail' discipline.pk %}" class="btn btn-primary">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+        
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <p>No disciplines available. <a href="/admin/courses/discipline/add/">Add a discipline</a> in the admin panel.</p>
+{% endif %}
+{% endblock %}
