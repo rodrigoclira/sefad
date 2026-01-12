@@ -34,7 +34,14 @@ class DisciplineListView(ListView):
         queryset = super().get_queryset()
         course_id = self.request.GET.get('course')
         if course_id:
-            queryset = queryset.filter(course_id=course_id)
+            try:
+                course_id = int(course_id)
+                # Validate that the course exists
+                if Course.objects.filter(id=course_id).exists():
+                    queryset = queryset.filter(course_id=course_id)
+            except (ValueError, TypeError):
+                # Invalid course_id, ignore filter
+                pass
         return queryset
 
 
