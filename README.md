@@ -34,7 +34,7 @@ Set the `ENVIRONMENT` variable in your `.env` file to switch between modes.
 
 Before running the project, you can verify that all files are correctly set up:
 ```bash
-./verify-setup.sh
+./scripts/verify-setup.sh
 ```
 
 This script will check:
@@ -119,8 +119,9 @@ docker-compose logs db
 
 For local development using SQLite:
 
-1. Create a virtual environment and install dependencies:
+1. Navigate to the sefad directory and create a virtual environment:
 ```bash
+cd sefad
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -128,7 +129,7 @@ pip install -r requirements.txt
 
 2. Create a `.env` file:
 ```bash
-cp .env.example .env
+cp ../.env.example ../.env
 ```
 Ensure `ENVIRONMENT=dev` is set in the `.env` file.
 
@@ -159,27 +160,31 @@ docker-compose run --rm --service-ports web python manage.py runserver 0.0.0.0:8
 
 ## Project Structure
 ```
-sefad/
-├── sefad/              # Django project settings
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py     # Project settings
-│   ├── urls.py         # URL configuration
-│   └── wsgi.py
-├── courses/            # Courses and disciplines app
-│   ├── models.py       # Course and Discipline models
-│   ├── admin.py        # Admin interface
-│   ├── views.py        # Web views
-│   ├── urls.py         # URL patterns
-│   ├── templates/      # HTML templates
-│   └── tests.py        # Test suite
-├── manage.py           # Django management script
-├── requirements.txt    # Python dependencies
-├── Dockerfile          # Docker image configuration
+sefad/                  # Repository root
+├── README.md           # This file
 ├── docker-compose.yml  # Docker Compose configuration
-├── .dockerignore       # Docker ignore file
 ├── .env.example        # Environment variables example
-└── README.md           # This file
+├── scripts/            # Utility scripts
+│   └── verify-setup.sh # Setup verification script
+└── sefad/              # Django project directory
+    ├── .dockerignore   # Docker ignore file
+    ├── .gitignore      # Git ignore file
+    ├── Dockerfile      # Docker image configuration
+    ├── manage.py       # Django management script
+    ├── requirements.txt # Python dependencies
+    ├── sefad/          # Django project settings
+    │   ├── __init__.py
+    │   ├── asgi.py
+    │   ├── settings.py # Project settings
+    │   ├── urls.py     # URL configuration
+    │   └── wsgi.py
+    └── courses/        # Courses and disciplines app
+        ├── models.py   # Course and Discipline models
+        ├── admin.py    # Admin interface
+        ├── views.py    # Web views
+        ├── urls.py     # URL patterns
+        ├── templates/  # HTML templates
+        └── tests.py    # Test suite
 ```
 
 ## Apps
