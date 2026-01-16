@@ -16,7 +16,7 @@ services:
       retries: 5
 
   web:
-    build: .
+    build: ./sefad
     # Note: Running migrations on every start is suitable for development
     # For production, consider using a separate init container or manual migration step
     command: >
@@ -24,7 +24,7 @@ services:
              python manage.py collectstatic --noinput &&
              gunicorn --bind 0.0.0.0:8000 sefad.wsgi:application"
     volumes:
-      - .:/app
+      - ./sefad:/app
       - static_volume:/app/staticfiles
     ports:
       - "8000:8000"

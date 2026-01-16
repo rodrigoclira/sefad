@@ -7,7 +7,7 @@ echo ""
 
 # Check Python files syntax
 echo "1. Checking Python files syntax..."
-python -m py_compile sefad/settings.py sefad/urls.py sefad/wsgi.py manage.py 2>/dev/null
+python -m py_compile sefad/sefad/settings.py sefad/sefad/urls.py sefad/sefad/wsgi.py sefad/manage.py 2>/dev/null
 if [ $? -eq 0 ]; then
     echo "✓ All Python files are syntactically correct"
 else
@@ -30,15 +30,15 @@ fi
 echo ""
 echo "3. Checking required files..."
 required_files=(
-    "Dockerfile"
+    "sefad/Dockerfile"
     "docker-compose.yml"
-    ".dockerignore"
+    "sefad/.dockerignore"
     ".env.example"
-    "requirements.txt"
-    "manage.py"
-    "sefad/settings.py"
-    "sefad/urls.py"
-    "sefad/wsgi.py"
+    "sefad/requirements.txt"
+    "sefad/manage.py"
+    "sefad/sefad/settings.py"
+    "sefad/sefad/urls.py"
+    "sefad/sefad/wsgi.py"
 )
 
 all_files_exist=true
