@@ -1,0 +1,34 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{{ professor.name }} - SEFAD{% endblock %}
+
+{% block content %}
+<h2>{{ professor.name }}</h2>
+
+<div class="professor-detail-card">
+    <div class="professor-detail-header">
+        <div class="professor-avatar-large">
+            <span class="avatar-initial-large">{{ professor.name.0|upper }}</span>
+        </div>
+        <div class="professor-basic-info">
+            <h3>{{ professor.name }}</h3>
+            <p class="professor-meta">
+                <em>Cadastrado em: {{ professor.created_at|date:"d/m/Y" }}</em>
+                {% if professor.updated_at != professor.created_at %}
+                <br><em>Última atualização: {{ professor.updated_at|date:"d/m/Y H:i" }}</em>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    
+    <div class="professor-section">
+        <h3>Informações</h3>
+        <p class="info-message">Mais informações sobre este professor serão adicionadas em breve.</p>
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'professors:professor_list' %}" class="btn btn-secondary">Voltar para Lista</a>
+    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-primary">Editar Professor</a>
+</div>
+{% endblock %}

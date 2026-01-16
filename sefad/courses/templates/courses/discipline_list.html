@@ -13,7 +13,8 @@
                 <th>Course</th>
                 <th>Period</th>
                 <th>Main Area</th>
-                <th>Workload (hours)</th>
+                <th>Credits</th>
+                <th>CH Relógio</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,7 +29,8 @@
                 </td>
                 <td>{{ discipline.period }}</td>
                 <td>{{ discipline.main_area }}</td>
-                <td>{{ discipline.workload_hours }}</td>
+                <td>{{ discipline.credits }}</td>
+                <td>{{ discipline.ch_relogio }}h</td>
                 <td>
                     <a href="{% url 'courses:discipline_detail' discipline.pk %}" class="btn btn-primary">View</a>
                 </td>

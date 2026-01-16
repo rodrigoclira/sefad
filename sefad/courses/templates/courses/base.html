@@ -1,103 +1,583 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Estimativa de Força Acadêmica Docente - Gerenciamento de Cursos e Disciplinas">
     <title>{% block title %}SEFAD - Course Management{% endblock %}</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #64748b;
+            --secondary-hover: #475569;
+            --success-color: #16a34a;
+            --danger-color: #dc2626;
+            --warning-color: #ea580c;
+            --info-color: #0891b2;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --border-color: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .top-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
         header {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        h1 small {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        h2, h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .content-box {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
             margin-bottom: 2rem;
         }
-        h1, h2, h3 {
-            color: #333;
-        }
-        .container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+
         .course-card, .discipline-card {
-            border: 1px solid #ddd;
-            padding: 1rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
             margin-bottom: 1rem;
-            border-radius: 5px;
-            background-color: #fafafa;
+            border-radius: 8px;
+            background-color: var(--surface);
+            transition: all 0.3s ease;
         }
+
+        .course-card:hover, .discipline-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
         .course-card h3, .discipline-card h3 {
             margin-top: 0;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
         }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .course-header h3 {
+            margin: 0;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .course-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .stat-item {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat-item strong {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-right: 0.25rem;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .discipline-info {
+            background-color: var(--background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .discipline-info p {
+            margin-bottom: 0.75rem;
+        }
+
         .badge {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
+            padding: 0.35rem 0.75rem;
             font-size: 0.875rem;
-            border-radius: 3px;
-            background-color: #007bff;
-            color: #fff;
+            font-weight: 500;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: white;
+            white-space: nowrap;
         }
+
         .badge-success {
-            background-color: #28a745;
+            background-color: var(--success-color);
         }
+
+        .badge-info {
+            background-color: var(--info-color);
+        }
+
+        .badge-warning {
+            background-color: var(--warning-color);
+        }
+
         .btn {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            padding: 0.625rem 1.25rem;
             text-decoration: none;
-            border-radius: 3px;
-            margin-right: 0.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
+
         .btn-primary {
-            background-color: #007bff;
-            color: #fff;
+            background-color: var(--primary-color);
+            color: white;
         }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: var(--shadow);
+        }
+
         .btn-secondary {
-            background-color: #6c757d;
-            color: #fff;
+            background-color: var(--surface);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
-        .btn:hover {
-            opacity: 0.8;
+
+        .btn-secondary:hover {
+            background-color: var(--background);
+            border-color: var(--secondary-color);
         }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
+
         th, td {
-            padding: 0.75rem;
+            padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
         }
+
         th {
-            background-color: #f8f9fa;
-            font-weight: bold;
+            background-color: var(--background);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
-        tr:hover {
-            background-color: #f5f5f5;
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--background);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1rem;
+        }
+
+        .pagination span {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .professors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .professor-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: var(--surface);
+            transition: all 0.3s ease;
+        }
+
+        .professor-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--primary-color);
+        }
+
+        .professor-avatar {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .avatar-initial {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .professor-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .professor-name {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .professor-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .professor-name a:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .professor-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .professor-info h3 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1.125rem;
+        }
+
+        .professor-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .btn-full {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .professor-detail-card {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .professor-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .professor-avatar-large {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-initial-large {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .professor-basic-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.875rem;
+        }
+
+        .professor-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .professor-section {
+            margin-top: 1.5rem;
+        }
+
+        .professor-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .info-message {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .content-box {
+                padding: 1.5rem;
+            }
+
+            table {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>SEFAD - Sistema de Estimativa de Força Acadêmica Docente</h1>
-        <nav>
-            <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Courses</a>
-            <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Disciplines</a>
-            <a href="/admin/" class="btn btn-secondary">Admin</a>
-        </nav>
-    </header>
+    <div class="top-bar">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">S</div>
+                    <h1>
+                        SEFAD
+                        <small>Sistema de Estimativa de Força Acadêmica Docente</small>
+                    </h1>
+                </div>
+                <nav>
+                    <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Cursos</a>
+                    <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Disciplinas</a>
+                    <a href="{% url 'professors:professor_list' %}" class="btn btn-secondary">Professores</a>
+                    <a href="/admin/" class="btn btn-primary">Admin</a>
+                </nav>
+            </div>
+        </header>
+    </div>
     <div class="container">
-        {% block content %}
-        {% endblock %}
+        <div class="content-box">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 </body>
 </html>

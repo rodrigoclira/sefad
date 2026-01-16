@@ -1,0 +1,47 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Professores - SEFAD{% endblock %}
+
+{% block content %}
+<h2>Professores</h2>
+
+{% if professors %}
+    <div class="professors-grid">
+        {% for professor in professors %}
+        <div class="professor-card">
+            <div class="professor-avatar">
+                <span class="avatar-initial">{{ professor.name.0|upper }}</span>
+            </div>
+            <div class="professor-content">
+                <h3 class="professor-name">
+                    <a href="{% url 'professors:professor_detail' professor.pk %}">{{ professor.name }}</a>
+                </h3>
+                <div class="professor-actions">
+                    <a href="{% url 'professors:professor_detail' professor.pk %}" class="btn btn-primary btn-full">Ver Detalhes</a>
+                    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-secondary btn-full">Editar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Anterior</a>
+        {% endif %}
+        
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Próxima</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% else %}
+    <div class="empty-state">
+        <p>Nenhum professor cadastrado.</p>
+        <a href="/admin/professors/professor/add/" class="btn btn-primary">Adicionar Professor</a>
+    </div>
+{% endif %}
+{% endblock %}

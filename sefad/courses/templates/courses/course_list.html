@@ -9,17 +9,29 @@
     <div class="courses-list">
         {% for course in courses %}
         <div class="course-card">
-            <h3>
-                <a href="{% url 'courses:course_detail' course.pk %}">{{ course.name }}</a>
-            </h3>
-            <p>
-                <span class="badge">{{ course.get_calendar_type_display }}</span>
-                <span class="badge badge-success">{{ course.disciplines.count }} discipline(s)</span>
-            </p>
+            <div class="course-header">
+                <h3>
+                    <a href="{% url 'courses:course_detail' course.pk %}">{{ course.name }}</a>
+                </h3>
+                <div class="course-meta">
+                    <span class="badge badge-info">{{ course.grade_year }}</span>
+                    <span class="badge">{{ course.get_calendar_type_display }}</span>
+                </div>
+            </div>
             {% if course.description %}
-            <p>{{ course.description|truncatewords:30 }}</p>
+            <p class="course-description">{{ course.description|truncatewords:30 }}</p>
             {% endif %}
-            <a href="{% url 'courses:course_detail' course.pk %}" class="btn btn-primary">View Details</a>
+            <div class="course-footer">
+                <div class="course-stats">
+                    <span class="stat-item">
+                        <strong>{{ course.disciplines.count }}</strong> disciplina(s)
+                    </span>
+                </div>
+                <div class="course-actions">
+                    <a href="{% url 'courses:course_detail' course.pk %}" class="btn btn-primary">Ver Detalhes</a>
+                    <a href="/admin/courses/course/{{ course.pk }}/change/" class="btn btn-secondary">Editar</a>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>

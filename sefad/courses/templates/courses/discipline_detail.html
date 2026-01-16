@@ -13,7 +13,15 @@
     </p>
     <p><strong>Period:</strong> {{ discipline.period }}</p>
     <p><strong>Main Area:</strong> <span class="badge">{{ discipline.main_area }}</span></p>
-    <p><strong>Workload:</strong> {{ discipline.workload_hours }} hours</p>
+    <p><strong>Credits:</strong> {{ discipline.credits }}</p>
+    <p><strong>CH Aula:</strong> {{ discipline.ch_aula }}h</p>
+    <p><strong>CH Relógio:</strong> {{ discipline.ch_relogio }}h</p>
+    {% if discipline.pre_requisito %}
+    <p><strong>Prerequisite:</strong> {{ discipline.pre_requisito }}</p>
+    {% endif %}
+    {% if discipline.co_requisito %}
+    <p><strong>Co-requisite:</strong> {{ discipline.co_requisito }}</p>
+    {% endif %}
     
     {% if discipline.description %}
     <h3>Description</h3>
