@@ -1,0 +1,57 @@
+{% extends "courses/base.html" %}
+
+{% block title %}
+{% if object %}Editar Entrada de Turma{% else %}Nova Entrada de Turma{% endif %} - SEFAD
+{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>{% if object %}Editar Entrada de Turma{% else %}Nova Entrada de Turma{% endif %}</h2>
+    <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">{{ form.course.label }}</label>
+            {{ form.course }}
+            {% if form.course.errors %}<p class="form-error">{{ form.course.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.start_semester.label }}</label>
+            {{ form.start_semester }}
+            <small class="form-help">{{ form.start_semester.help_text }}</small>
+            {% if form.start_semester.errors %}<p class="form-error">{{ form.start_semester.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.label.label }}</label>
+            {{ form.label }}
+            <small class="form-help">{{ form.label.help_text }}</small>
+            {% if form.label.errors %}<p class="form-error">{{ form.label.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:0.75rem;">
+            {{ form.is_active }}
+            <label class="form-label" style="margin:0;">{{ form.is_active.label }}</label>
+            <small class="form-help">{{ form.is_active.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.notes.label }}</label>
+            {{ form.notes }}
+            {% if form.notes.errors %}<p class="form-error">{{ form.notes.errors }}</p>{% endif %}
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">
+                {% if object %}Salvar Alterações{% else %}Criar Entrada{% endif %}
+            </button>
+            <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

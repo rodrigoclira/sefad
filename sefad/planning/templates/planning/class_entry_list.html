@@ -1,0 +1,111 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Entradas de Turma - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Entradas de Turma</h2>
+    <div style="display:flex;gap:0.75rem;">
+        <a href="{% url 'planning:projection' %}" class="btn btn-secondary">Ver Projeção</a>
+        <a href="{% url 'planning:entry_create' %}" class="btn btn-primary">+ Nova Entrada</a>
+    </div>
+</div>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{# Filter form #}
+<form method="get" style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:flex-end;margin-bottom:1.25rem;padding:1rem;background:var(--background);border:1px solid var(--border-color);border-radius:8px;">
+    <div class="form-group" style="margin:0;min-width:200px;">
+        <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem;">Curso</label>
+        <select name="course" class="form-select" style="padding:0.4rem 0.6rem;border:1px solid var(--border-color);border-radius:6px;font-size:0.875rem;background:var(--surface);width:100%;">
+            <option value="">Todos os cursos</option>
+            {% for course in courses %}
+            <option value="{{ course.pk }}" {% if filter_course == course.pk|stringformat:"s" %}selected{% endif %}>
+                {{ course.name }}{% if course.short_name %} ({{ course.short_name }}){% endif %}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group" style="margin:0;width:110px;">
+        <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem;">Semestre</label>
+        <input type="text" name="semester" value="{{ filter_semester }}" placeholder="2026.1"
+               style="padding:0.4rem 0.6rem;border:1px solid var(--border-color);border-radius:6px;font-size:0.875rem;width:100%;">
+    </div>
+    <div class="form-group" style="margin:0;width:120px;">
+        <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem;">Status</label>
+        <select name="status" style="padding:0.4rem 0.6rem;border:1px solid var(--border-color);border-radius:6px;font-size:0.875rem;background:var(--surface);width:100%;">
+            <option value="" {% if not filter_status %}selected{% endif %}>Todos</option>
+            <option value="active" {% if filter_status == "active" %}selected{% endif %}>Ativas</option>
+            <option value="inactive" {% if filter_status == "inactive" %}selected{% endif %}>Inativas</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" style="padding:0.45rem 1rem;font-size:0.875rem;">Filtrar</button>
+    {% if filter_course or filter_semester or filter_status %}
+    <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary" style="padding:0.45rem 1rem;font-size:0.875rem;">Limpar</a>
+    {% endif %}
+    <span style="font-size:0.8rem;color:var(--text-secondary);align-self:center;">
+        {{ entries|length }} de {{ total_count }} entrada{% if total_count != 1 %}s{% endif %}
+    </span>
+</form>
+
+{% if entries %}
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Semestre Início</th>
+                <th>Rótulo</th>
+                <th>Status</th>
+                <th>Observações</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>
+                    <strong>{{ entry.course.name }}</strong>
+                    {% if entry.course.short_name %}
+                    <span style="font-size:0.75rem;color:var(--text-secondary);margin-left:0.3rem;">({{ entry.course.short_name }})</span>
+                    {% endif %}
+                </td>
+                <td><span class="semester-badge">{{ entry.start_semester }}</span></td>
+                <td>{{ entry.label|default:"-" }}</td>
+                <td>
+                    {% if entry.is_active %}
+                    <span class="badge badge-success">Ativa</span>
+                    {% else %}
+                    <span class="badge badge-secondary" style="background:var(--background);color:var(--text-secondary);border:1px solid var(--border-color);">Inativa</span>
+                    {% endif %}
+                </td>
+                <td>{{ entry.notes|truncatewords:10|default:"-" }}</td>
+                <td>
+                    <div style="display:flex;gap:0.5rem;">
+                        <a href="{% url 'planning:entry_edit' entry.pk %}" class="btn-icon">Editar</a>
+                        <a href="{% url 'planning:entry_delete' entry.pk %}" class="btn-icon btn-icon-danger">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    {% if filter_course or filter_semester or filter_status %}
+    <p>Nenhuma entrada encontrada para os filtros selecionados.</p>
+    <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Limpar Filtros</a>
+    {% else %}
+    <p>Nenhuma entrada de turma cadastrada.</p>
+    <a href="{% url 'planning:entry_create' %}" class="btn btn-primary">Cadastrar Primeira Entrada</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

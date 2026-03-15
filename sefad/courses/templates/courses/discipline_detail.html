@@ -6,25 +6,32 @@
 <h2>{{ discipline.name }}</h2>
 
 <div class="discipline-info">
-    <p><strong>Course:</strong> 
+    <p><strong>Curso:</strong> 
         <a href="{% url 'courses:course_detail' discipline.course.pk %}">
             {{ discipline.course.name }} ({{ discipline.course.get_calendar_type_display }})
         </a>
     </p>
-    <p><strong>Period:</strong> {{ discipline.period }}</p>
-    <p><strong>Main Area:</strong> <span class="badge">{{ discipline.main_area }}</span></p>
-    <p><strong>Credits:</strong> {{ discipline.credits }}</p>
+    <p><strong>Período:</strong> {{ discipline.period }}</p>
+    <p><strong>Área Principal:</strong> <span class="badge">{{ discipline.main_area }}</span></p>
+    <p><strong>Tipo:</strong> 
+        {% if discipline.is_elective %}
+            <span class="badge" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">Optativa</span>
+        {% else %}
+            <span class="badge" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white;">Obrigatória</span>
+        {% endif %}
+    </p>
+    <p><strong>Créditos:</strong> {{ discipline.credits }}</p>
     <p><strong>CH Aula:</strong> {{ discipline.ch_aula }}h</p>
     <p><strong>CH Relógio:</strong> {{ discipline.ch_relogio }}h</p>
     {% if discipline.pre_requisito %}
-    <p><strong>Prerequisite:</strong> {{ discipline.pre_requisito }}</p>
+    <p><strong>Pré-requisito:</strong> {{ discipline.pre_requisito }}</p>
     {% endif %}
     {% if discipline.co_requisito %}
-    <p><strong>Co-requisite:</strong> {{ discipline.co_requisito }}</p>
+    <p><strong>Co-requisito:</strong> {{ discipline.co_requisito }}</p>
     {% endif %}
     
     {% if discipline.description %}
-    <h3>Description</h3>
+    <h3>Descrição</h3>
     <p>{{ discipline.description }}</p>
     {% endif %}
     
@@ -32,8 +39,8 @@
 </div>
 
 <div style="margin-top: 2rem;">
-    <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Back to Disciplines</a>
-    <a href="{% url 'courses:course_detail' discipline.course.pk %}" class="btn btn-secondary">View Course</a>
-    <a href="/admin/courses/discipline/{{ discipline.pk }}/change/" class="btn btn-primary">Edit Discipline</a>
+    <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Voltar para Disciplinas</a>
+    <a href="{% url 'courses:course_detail' discipline.course.pk %}" class="btn btn-secondary">Ver Curso</a>
+    <a href="/admin/courses/discipline/{{ discipline.pk }}/change/" class="btn btn-primary">Editar Disciplina</a>
 </div>
 {% endblock %}

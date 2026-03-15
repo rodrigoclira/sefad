@@ -1,0 +1,66 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{% if form.instance.pk %}Editar{% else %}Criar{% endif %} Plano - SEFAD{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{% if form.instance.pk %}Editar{% else %}Criar Novo{% endif %} Plano de Semestre</h2>
+    
+    {% if form.errors %}
+    <div class="alert alert-error">
+        <p>Por favor, corrija os erros abaixo:</p>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Nome do Plano *</label>
+            {{ form.name }}
+            {% if form.name.help_text %}
+            <small class="form-help">{{ form.name.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.semester.id_for_label }}">Semestre *</label>
+            {{ form.semester }}
+            {% if form.semester.help_text %}
+            <small class="form-help">{{ form.semester.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.course.id_for_label }}">Curso *</label>
+            {{ form.course }}
+            {% if form.course.help_text %}
+            <small class="form-help">{{ form.course.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Descrição</label>
+            {{ form.description }}
+            {% if form.description.help_text %}
+            <small class="form-help">{{ form.description.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                {% if form.instance.pk %}Salvar Alterações{% else %}Criar Plano{% endif %}
+            </button>
+            <a href="{% if form.instance.pk %}{% url 'planning:plan_detail' form.instance.pk %}{% else %}{% url 'planning:plan_list' %}{% endif %}" 
+               class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

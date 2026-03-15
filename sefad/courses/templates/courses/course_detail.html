@@ -3,55 +3,77 @@
 {% block title %}{{ course.name }} - SEFAD{% endblock %}
 
 {% block content %}
-<h2>{{ course.name }}</h2>
-
-<div class="course-info">
-    <p><strong>Calendar Type:</strong> <span class="badge">{{ course.get_calendar_type_display }}</span></p>
-    
-    {% if course.description %}
-    <h3>Description</h3>
-    <p>{{ course.description }}</p>
-    {% endif %}
-    
-    <p><em>Created: {{ course.created_at|date:"F d, Y" }} | Updated: {{ course.updated_at|date:"F d, Y" }}</em></p>
+<div class="course-detail-header">
+    <div class="course-title-section">
+        <h2>{{ course.name }}</h2>
+        <div class="course-badges">
+            <span class="badge badge-info">{{ course.grade_year }}</span>
+            <span class="badge">{{ course.get_calendar_type_display }}</span>
+            <span class="badge badge-success">{{ disciplines.count }} disciplina(s)</span>
+        </div>
+    </div>
+    <div class="course-meta-info">
+        <span class="meta-item">Cadastrado: {{ course.created_at|date:"d/m/Y" }}</span>
+        {% if course.updated_at != course.created_at %}
+        <span class="meta-item">Atualizado: {{ course.updated_at|date:"d/m/Y" }}</span>
+        {% endif %}
+    </div>
 </div>
 
-<h3>Disciplines ({{ disciplines.count }})</h3>
-
-{% if disciplines %}
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Period</th>
-                <th>Main Area</th>
-                <th>Credits</th>
-                <th>CH Relógio</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for discipline in disciplines %}
-            <tr>
-                <td>{{ discipline.name }}</td>
-                <td>{{ discipline.period }}</td>
-                <td>{{ discipline.main_area }}</td>
-                <td>{{ discipline.credits }}</td>
-                <td>{{ discipline.ch_relogio }}h</td>
-                <td>
-                    <a href="{% url 'courses:discipline_detail' discipline.pk %}" class="btn btn-primary">View</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No disciplines in this course yet.</p>
+{% if course.description %}
+<div class="course-description-box">
+    <h3>Descrição</h3>
+    <p>{{ course.description }}</p>
+</div>
 {% endif %}
 
-<div style="margin-top: 2rem;">
-    <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Back to Courses</a>
-    <a href="/admin/courses/course/{{ course.pk }}/change/" class="btn btn-primary">Edit Course</a>
-    <a href="/admin/courses/discipline/add/?course={{ course.pk }}" class="btn btn-primary">Add Discipline</a>
+<div class="disciplines-section">
+    <div class="section-header">
+        <h3>Disciplinas</h3>
+        <a href="/admin/courses/discipline/add/?course={{ course.pk }}" class="btn btn-primary">+ Adicionar Disciplina</a>
+    </div>
+
+    {% if disciplines %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Período</th>
+                        <th>Área</th>
+                        <th>Créditos</th>
+                        <th>CH Relógio</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for discipline in disciplines %}
+                    <tr>
+                        <td class="discipline-name">
+                            <a href="{% url 'courses:discipline_detail' discipline.pk %}">{{ discipline.name }}</a>
+                        </td>
+                        <td class="text-center"><span class="period-badge">{{ discipline.period }}</span></td>
+                        <td><span class="area-tag">{{ discipline.main_area }}</span></td>
+                        <td class="text-center">{{ discipline.credits }}</td>
+                        <td class="text-center">{{ discipline.ch_relogio }}h</td>
+                        <td>
+                            <a href="{% url 'courses:discipline_detail' discipline.pk %}" class="btn btn-primary btn-sm">Ver</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>Nenhuma disciplina cadastrada neste curso.</p>
+            <a href="/admin/courses/discipline/add/?course={{ course.pk }}" class="btn btn-primary">Adicionar Primeira Disciplina</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="action-buttons">
+    <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">← Voltar</a>
+    <a href="/admin/courses/course/{{ course.pk }}/change/" class="btn btn-secondary">Editar Curso</a>
 </div>
 {% endblock %}

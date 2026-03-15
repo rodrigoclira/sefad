@@ -13,6 +13,17 @@ class Command(BaseCommand):
             "--clear", action="store_true", help="Clear existing data before importing"
         )
 
+    def make_short_name(self, course_name):
+        """Generate a short abbreviation from a course name using significant word initials."""
+        stopwords = {'e', 'de', 'da', 'do', 'das', 'dos', 'em', 'a', 'o', 'as', 'os',
+                     'ao', 'aos', 'para', 'por', 'com', 'no', 'na', 'nos', 'nas', 'à'}
+        initials = [
+            w[0].upper()
+            for w in course_name.split()
+            if w.lower() not in stopwords and len(w) > 1
+        ]
+        return ''.join(initials[:6])
+
     def infer_main_area(self, discipline_name):
         """
         Infer the main area from discipline name.
@@ -103,6 +114,7 @@ class Command(BaseCommand):
                 grade_year=course_data["grade_year"],
                 defaults={
                     "calendar_type": Course.CALENDAR_SEMESTRAL,
+                    "short_name": self.make_short_name(course_data["name"]),
                 },
             )
             courses[course_key] = course
@@ -127,12 +139,15 @@ class Command(BaseCommand):
             course = courses[course_key]
 
             discipline_name = row["disciplina"]
-            period = row["modulo"]
+            period = row.get("modulo") or row.get("periodo", "")
             credits = int(row["creditos"]) if row["creditos"] else 0
             ch_aula = int(row["ch_aula"]) if row["ch_aula"] else 0
             ch_relogio = int(row["ch_relogio"]) if row["ch_relogio"] else 0
             pre_requisito = row["pre_requisito"].strip() if row["pre_requisito"] else ""
             co_requisito = row["co_requisito"].strip() if row["co_requisito"] else ""
+            is_elective_str = row.get("is_elective", "False").strip()
+            is_elective = is_elective_str.lower() in ["true", "1", "yes", "sim"]
+            available_periods = (row.get("available_periods") or "").strip()
 
             # Infer main area
             main_area = self.infer_main_area(discipline_name)
@@ -148,6 +163,8 @@ class Command(BaseCommand):
                     "ch_relogio": ch_relogio,
                     "pre_requisito": pre_requisito,
                     "co_requisito": co_requisito,
+                    "is_elective": is_elective,
+                    "available_periods": available_periods,
                 },
             )
 

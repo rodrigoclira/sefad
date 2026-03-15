@@ -1,0 +1,52 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Adicionar Todos os Períodos - {{ plan.name }} - SEFAD{% endblock %}
+
+{% block content %}
+<div>
+    <h2>Adicionar Todos os Períodos ao Plano</h2>
+    <p class="subtitle">Plano: <strong>{{ plan.name }}</strong></p>
+    
+    <div class="alert alert-info">
+        <p><strong>Atenção:</strong> Esta ação adicionará todas as disciplinas de todos os períodos do curso ao plano.</p>
+    </div>
+
+    <form method="post" style="max-width: 700px;">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="classes_count">Número de Turmas para Cada Disciplina *</label>
+            <input type="number" name="classes_count" id="classes_count" min="1" value="1" required class="form-input">
+            <small class="form-help">Todas as disciplinas terão este número de turmas</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Adicionar Todos os Períodos</button>
+            <a href="{% url 'planning:plan_detail' plan.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+
+    <div class="info-box">
+        <h4>Disciplinas que serão adicionadas:</h4>
+        <p class="period-stats"><strong>Total: {{ total_disciplines }} disciplinas</strong></p>
+        
+        <div class="periods-overview">
+            {% for period, disciplines in disciplines_by_period.items %}
+            <div class="period-card">
+                <h5>{{ period }}º Período</h5>
+                <p class="period-stats">{{ disciplines|length }} disciplina(s)</p>
+                <ul class="discipline-list-compact">
+                    {% for discipline in disciplines %}
+                    <li>
+                        {{ discipline.name }}
+                        <span class="badge">{{ discipline.credits }} créditos</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

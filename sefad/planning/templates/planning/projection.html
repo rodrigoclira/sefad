@@ -1,0 +1,269 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Projeção de Carga Horária - SEFAD{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Period color palette */
+.period-badge { display:inline-block; padding:0.2rem 0.55rem; border-radius:999px; font-size:0.78rem; font-weight:700; white-space:nowrap; }
+.period-1  { background:#dbeafe; color:#1e40af; }
+.period-2  { background:#dcfce7; color:#166534; }
+.period-3  { background:#fef9c3; color:#854d0e; }
+.period-4  { background:#ffe4e6; color:#9f1239; }
+.period-5  { background:#ede9fe; color:#5b21b6; }
+.period-6  { background:#ffedd5; color:#9a3412; }
+.period-7  { background:#cffafe; color:#155e75; }
+.period-8  { background:#fce7f3; color:#9d174d; }
+.period-9  { background:#d1fae5; color:#065f46; }
+.period-10 { background:#e0e7ff; color:#3730a3; }
+
+/* Row tinting per period */
+.row-period-1  { border-left:3px solid #3b82f6; }
+.row-period-2  { border-left:3px solid #22c55e; }
+.row-period-3  { border-left:3px solid #eab308; }
+.row-period-4  { border-left:3px solid #f43f5e; }
+.row-period-5  { border-left:3px solid #a855f7; }
+.row-period-6  { border-left:3px solid #f97316; }
+.row-period-7  { border-left:3px solid #06b6d4; }
+.row-period-8  { border-left:3px solid #ec4899; }
+.row-period-9  { border-left:3px solid #10b981; }
+.row-period-10 { border-left:3px solid #6366f1; }
+
+/* Entry chips */
+.entry-chips { display:flex; flex-wrap:wrap; gap:0.3rem; }
+.entry-chip {
+    display:inline-flex; align-items:center; gap:0.25rem;
+    padding:0.15rem 0.5rem; border-radius:999px;
+    font-size:0.72rem; font-weight:600;
+    background:#f1f5f9; color:#475569;
+    border:1px solid #cbd5e1;
+    white-space:nowrap;
+}
+.entry-chip-extra {
+    background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;
+}
+
+/* Period legend */
+.period-legend { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.25rem; }
+
+/* Print styles */
+@media print {
+    .top-bar, nav, .section-header .btn, .filter-form, .no-print { display:none !important; }
+    body { background:#fff; }
+    .container { margin:0; padding:0.5cm; max-width:100%; }
+    .content-box { box-shadow:none; padding:0; }
+    .card { border:1px solid #ccc; border-radius:0; margin-bottom:0.6cm; page-break-inside:avoid; }
+    .period-legend { margin-bottom:0.4cm; }
+    table { font-size:8pt; }
+    th, td { padding:4px 6px; }
+    .semester-badge { background:#333 !important; color:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .period-badge { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .course-abbr { border:1px solid #999; }
+    .entry-chip { border:1px solid #999; background:#f5f5f5 !important; }
+    a { text-decoration:none; color:inherit; }
+    .print-header { display:block !important; }
+}
+
+/* Course abbreviation badge */
+.course-abbr {
+    display:inline-block;
+    padding:0.15rem 0.5rem;
+    border-radius:5px;
+    font-size:0.75rem;
+    font-weight:700;
+    background:#f1f5f9;
+    color:#475569;
+    border:1px solid #cbd5e1;
+    white-space:nowrap;
+    cursor:default;
+    letter-spacing:0.03em;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section-header no-print">
+    <h2>Projeção de Carga Horária</h2>
+    <div style="display:flex;gap:0.75rem;">
+        <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Entradas de Turma</a>
+        <a href="{% url 'planning:extra_list' %}" class="btn btn-secondary">Disciplinas Extras</a>
+        <button onclick="window.print()" class="btn btn-secondary">Imprimir / PDF</button>
+    </div>
+</div>
+<h2 class="print-header" style="display:none;margin-bottom:0.5rem;">Projeção de Carga Horária</h2>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{# Filter form #}
+<div class="card filter-form" style="margin-bottom:1.5rem;padding:1.25rem;">
+    <form method="get" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;">
+        <div class="form-group" style="margin:0;min-width:200px;">
+            <label class="form-label">{{ form.course.label }}</label>
+            {{ form.course }}
+        </div>
+        <div class="form-group" style="margin:0;width:110px;">
+            <label class="form-label">{{ form.from_semester.label }}</label>
+            {{ form.from_semester }}
+        </div>
+        <div class="form-group" style="margin:0;width:110px;">
+            <label class="form-label">{{ form.to_semester.label }}</label>
+            {{ form.to_semester }}
+        </div>
+        <div class="form-group" style="margin:0;min-width:160px;">
+            <label class="form-label">{{ form.main_area.label }}</label>
+            {{ form.main_area }}
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="{% url 'planning:projection' %}" class="btn btn-secondary">Limpar</a>
+    </form>
+</div>
+
+{% if not has_entries %}
+<div class="empty-state">
+    <p>Nenhuma entrada de turma ativa cadastrada.</p>
+    <a href="{% url 'planning:entry_create' %}" class="btn btn-primary">Cadastrar Entrada de Turma</a>
+</div>
+{% elif not projection %}
+<div class="empty-state">
+    <p>Nenhum dado encontrado para os filtros selecionados.</p>
+</div>
+{% else %}
+
+{# Period color legend #}
+<div class="period-legend">
+    {% for p in periods_in_use %}
+    <span class="period-badge period-{{ p }}">{{ p }}º período</span>
+    {% endfor %}
+</div>
+
+{# One card per semester, rows sorted by course then period #}
+{% for semester, data in projection.items %}
+<div class="card" style="margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid var(--border-color);">
+        <h3 style="margin:0;">
+            <span class="semester-badge" style="font-size:1.1rem;padding:0.35rem 0.85rem;">{{ semester }}</span>
+        </h3>
+        <div style="display:flex;gap:1.5rem;font-size:0.875rem;color:var(--text-secondary);">
+            <span><strong>{{ data.total_classes }}</strong> turmas</span>
+            <span><strong>{{ data.total_credits }}</strong> créditos</span>
+            <span><strong>{{ data.total_ch }}h</strong> CH</span>
+        </div>
+    </div>
+
+    <div class="table-container" style="margin:0;">
+        <table class="data-table" style="margin:0;">
+            <thead>
+                <tr>
+                    <th>Período</th>
+                    <th>Curso</th>
+                    <th>Disciplina</th>
+                    <th>Entradas de Turma</th>
+                    <th style="text-align:center;">Regular</th>
+                    <th style="text-align:center;">Extra</th>
+                    <th style="text-align:center;">Total</th>
+                    <th style="text-align:center;">Créditos</th>
+                    <th style="text-align:center;">CH (h)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data.all_rows %}
+                {% if row.is_elective %}
+                <tr class="row-period-{{ row.period }}" style="font-style:italic;opacity:0.92;">
+                    <td>
+                        <span class="period-badge period-{{ row.period }}">{{ row.period }}º</span>
+                    </td>
+                    <td>
+                        <span class="course-abbr" title="{{ row.slot.course.name }}">
+                            {{ row.slot.course.short_name|default:row.slot.course.name }}
+                        </span>
+                    </td>
+                    <td>
+                        <span style="color:var(--secondary-color);">
+                            Optativa
+                            <small style="font-size:0.75rem;">({{ row.credits_per }} cr · {{ row.ch_per }}h cada)</small>
+                        </span>
+                        <span class="badge" style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;font-size:0.7rem;margin-left:0.4rem;">optativa</span>
+                    </td>
+                    <td>
+                        <div class="entry-chips">
+                            {% for src in row.source_entries %}
+                            <span class="entry-chip" title="{{ src }}">
+                                {{ src.start_semester }}{% if src.label %} · {{ src.label }}{% endif %}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td style="text-align:center;">{{ row.count }}</td>
+                    <td style="text-align:center;">-</td>
+                    <td style="text-align:center;font-weight:700;">{{ row.count }}</td>
+                    <td style="text-align:center;">{{ row.credits_total }}</td>
+                    <td style="text-align:center;">{{ row.ch_total }}</td>
+                </tr>
+                {% else %}
+                <tr class="row-period-{{ row.discipline.period }}">
+                    <td>
+                        <span class="period-badge period-{{ row.discipline.period }}">
+                            {{ row.discipline.period }}º
+                        </span>
+                    </td>
+                    <td>
+                        <span class="course-abbr" title="{{ row.discipline.course.name }}">
+                            {{ row.discipline.course.short_name|default:row.discipline.course.name }}
+                        </span>
+                    </td>
+                    <td>
+                        <strong>{{ row.discipline.name }}</strong>
+                        {% if row.extra_count > 0 %}
+                        <span class="badge badge-success" style="margin-left:0.4rem;font-size:0.7rem;">+extra</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="entry-chips">
+                            {% for src in row.source_entries %}
+                            <span class="entry-chip" title="{{ src }}">
+                                {{ src.start_semester }}{% if src.label %} · {{ src.label }}{% endif %}
+                            </span>
+                            {% endfor %}
+                            {% if row.extra_count > 0 %}
+                            <span class="entry-chip entry-chip-extra" title="Turma extra adicionada manualmente">
+                                +{{ row.extra_count }} extra{% if row.extra_count > 1 %}s{% endif %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td style="text-align:center;">
+                        {% if row.regular_count > 0 %}{{ row.regular_count }}{% else %}-{% endif %}
+                    </td>
+                    <td style="text-align:center;">
+                        {% if row.extra_count > 0 %}
+                        <span style="color:var(--primary-color);font-weight:600;">+{{ row.extra_count }}</span>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td style="text-align:center;font-weight:700;">{{ row.count }}</td>
+                    <td style="text-align:center;">{{ row.credits_total }}</td>
+                    <td style="text-align:center;">{{ row.ch_total }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="font-weight:700;background:var(--surface-color);">
+                    <td colspan="6" style="text-align:right;">Total do Semestre:</td>
+                    <td style="text-align:center;">{{ data.total_classes }}</td>
+                    <td style="text-align:center;">{{ data.total_credits }}</td>
+                    <td style="text-align:center;">{{ data.total_ch }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endfor %}
+
+{% endif %}
+{% endblock %}

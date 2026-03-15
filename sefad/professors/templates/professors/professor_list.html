@@ -2,13 +2,248 @@
 
 {% block title %}Professores - SEFAD{% endblock %}
 
+{% block extra_css %}
+<style>
+/* ── view toggle ── */
+.view-toggle { display: flex; gap: 0.4rem; }
+.view-toggle .btn { padding: 0.35rem 0.9rem; font-size: 0.85rem; }
+.view-toggle .btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+/* ── duration selector ── */
+.duration-selector { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+.duration-selector select {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+/* ── professor cards redesign ── */
+.professors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.professor-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 10px;
+    background: var(--surface);
+    transition: box-shadow 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+
+.professor-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.professor-card.on-leave {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+    opacity: 0.85;
+}
+
+.professor-avatar {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.professor-card.on-leave .professor-avatar {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+}
+
+.avatar-initial {
+    color: white;
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.professor-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.professor-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.professor-name a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.professor-name a:hover {
+    color: var(--primary-color);
+}
+
+.professor-badges {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.badge-group {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 5px;
+    background: #dbeafe;
+    color: #1e40af;
+    white-space: nowrap;
+}
+
+.badge-contract {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 5px;
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    white-space: nowrap;
+}
+
+.badge-leave {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 5px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    white-space: nowrap;
+}
+
+.professor-footer {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+}
+
+.professor-footer .btn {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* ── table view ── */
+.professors-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.professors-table th, .professors-table td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+.professors-table th {
+    background: var(--background);
+    font-weight: 600;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+}
+.professors-table td.num { text-align: center; font-weight: 600; }
+.professors-table tr.on-leave td { opacity: 0.55; font-style: italic; }
+.professors-table tfoot td {
+    font-weight: 700;
+    background: var(--background);
+    border-top: 2px solid var(--border-color);
+}
+.professors-table tfoot td.num { font-size: 1rem; color: var(--primary-color); }
+
+.totals-loading { opacity: 0.35; transition: opacity 0.2s; }
+.leave-tag {
+    font-size: 0.72rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    margin-left: 0.3rem;
+}
+.norm-info { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+
+@media print {
+    .top-bar, nav, .section-header, #view-cards, .no-print { display: none !important; }
+    body { background: #fff; }
+    .container { margin: 0; padding: 0.5cm; max-width: 100%; }
+    .content-box { box-shadow: none; padding: 0; }
+    #view-table { display: block !important; }
+    .print-header { display: block !important; }
+    .professors-table { font-size: 9pt; }
+    .professors-table th, .professors-table td { padding: 5px 8px; }
+    .professors-table th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .professors-table tfoot td { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .professors-table tr.on-leave td { opacity: 0.6; }
+    a { text-decoration: none; color: inherit; }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Professores</h2>
+<div class="section-header" style="flex-wrap:wrap;gap:0.75rem;">
+    <h2>Professores</h2>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+        <div class="view-toggle">
+            <button id="btn-cards" class="btn btn-secondary active" onclick="setView('cards')">Cards</button>
+            <button id="btn-table" class="btn btn-secondary" onclick="setView('table')">Tabela</button>
+        </div>
+        <div class="duration-selector" id="duration-selector" style="display:none;">
+            <label for="duration-select">Tempo de aula:</label>
+            <select id="duration-select" onchange="fetchTotals()">
+                <option value="45">45 min</option>
+                <option value="50">50 min</option>
+                <option value="60">60 min</option>
+            </select>
+        </div>
+        <button id="btn-print" onclick="window.print()" class="btn btn-secondary no-print" style="display:none;">Imprimir / PDF</button>
+    </div>
+</div>
+<div class="print-header" style="display:none;margin-bottom:1rem;">
+    <h2 style="margin:0 0 0.25rem;">Esforço Docente</h2>
+    <p id="print-subtitle" style="margin:0;font-size:0.9rem;color:#555;"></p>
+</div>
 
 {% if professors %}
+
+{# === CARDS VIEW === #}
+<div id="view-cards">
     <div class="professors-grid">
         {% for professor in professors %}
-        <div class="professor-card">
+        <div class="professor-card{% if professor.is_on_leave %} on-leave{% endif %}">
             <div class="professor-avatar">
                 <span class="avatar-initial">{{ professor.name.0|upper }}</span>
             </div>
@@ -16,32 +251,124 @@
                 <h3 class="professor-name">
                     <a href="{% url 'professors:professor_detail' professor.pk %}">{{ professor.name }}</a>
                 </h3>
-                <div class="professor-actions">
-                    <a href="{% url 'professors:professor_detail' professor.pk %}" class="btn btn-primary btn-full">Ver Detalhes</a>
-                    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-secondary btn-full">Editar</a>
+                <div class="professor-badges">
+                    {% if professor.work_group %}
+                    <span class="badge-group">Grupo {{ professor.work_group }}</span>
+                    {% endif %}
+                    {% if professor.contract_type %}
+                    <span class="badge-contract">{{ professor.get_contract_type_display }}</span>
+                    {% endif %}
+                    {% if professor.is_on_leave %}
+                    <span class="badge-leave">Afastado</span>
+                    {% endif %}
+                </div>
+                <div class="professor-footer">
+                    <a href="{% url 'professors:professor_detail' professor.pk %}" class="btn btn-primary">Ver Detalhes</a>
+                    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-secondary">Editar</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-    
+
     {% if is_paginated %}
     <div class="pagination">
         {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Anterior</a>
         {% endif %}
-        
         <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
-        
         {% if page_obj.has_next %}
         <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Próxima</a>
         {% endif %}
     </div>
     {% endif %}
+</div>
+
+{# === TABLE VIEW === #}
+<div id="view-table" style="display:none;">
+    <p id="norm-info" class="norm-info"></p>
+    <div class="table-container">
+        <table class="professors-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Grupo</th>
+                    <th>Regime</th>
+                    <th style="text-align:center;">Mín. Aulas/Sem</th>
+                    <th style="text-align:center;">Máx. Aulas/Sem</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Carregando…</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Total (ativos)</td>
+                    <td class="num" id="total-min">—</td>
+                    <td class="num" id="total-max">—</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
 {% else %}
     <div class="empty-state">
         <p>Nenhum professor cadastrado.</p>
         <a href="/admin/professors/professor/add/" class="btn btn-primary">Adicionar Professor</a>
     </div>
 {% endif %}
+
+<script>
+const TOTALS_URL = "{% url 'professors:professor_totals_api' %}";
+
+function setView(view) {
+    document.getElementById('view-cards').style.display = view === 'cards' ? '' : 'none';
+    document.getElementById('view-table').style.display = view === 'table' ? '' : 'none';
+    document.getElementById('duration-selector').style.display = view === 'table' ? '' : 'none';
+    document.getElementById('btn-print').style.display = view === 'table' ? '' : 'none';
+    document.getElementById('btn-cards').classList.toggle('active', view === 'cards');
+    document.getElementById('btn-table').classList.toggle('active', view === 'table');
+    if (view === 'table') fetchTotals();
+}
+
+function fetchTotals() {
+    const duration = document.getElementById('duration-select').value;
+    const tbody = document.getElementById('table-body');
+    tbody.classList.add('totals-loading');
+
+    fetch(`${TOTALS_URL}?duration=${duration}`)
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('norm-info').textContent =
+                data.norm_name ? `Normatização: ${data.norm_name}` : 'Nenhuma normatização ativa';
+
+            tbody.innerHTML = data.rows.map(row => {
+                const leaveTag = row.is_on_leave ? ' <span class="leave-tag">Afastado</span>' : '';
+                const min = row.min_classes !== null ? row.min_classes : '—';
+                const max = row.max_classes !== null ? row.max_classes : '—';
+                return `<tr class="${row.is_on_leave ? 'on-leave' : ''}">
+                    <td><a href="/professors/professor/${row.id}/">${row.name}</a>${leaveTag}</td>
+                    <td>${row.work_group ? 'Grupo ' + row.work_group : '—'}</td>
+                    <td>${row.contract_type_display}</td>
+                    <td class="num">${min}</td>
+                    <td class="num">${max}</td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('total-min').textContent =
+                data.applicable_count > 0 ? data.total_min : '—';
+            document.getElementById('total-max').textContent =
+                data.applicable_count > 0 ? data.total_max : '—';
+            tbody.classList.remove('totals-loading');
+
+            // Update print subtitle
+            const subtitle = [];
+            if (data.norm_name) subtitle.push(data.norm_name);
+            subtitle.push(`Aulas de ${data.duration} min`);
+            subtitle.push(`${data.applicable_count} professor(es) ativos de ${data.total_professors}`);
+            document.getElementById('print-subtitle').textContent = subtitle.join(' · ');
+        });
+}
+</script>
 {% endblock %}

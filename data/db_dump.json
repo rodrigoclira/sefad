@@ -1,0 +1,3497 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$B7UxrdNWRKp3DrnCF5jc8j$9S3QN5SCeqoAFrBHqc3j+f1pzSn+QFZ+FOrsbxoW2n8=",
+    "last_login": "2026-03-13T00:54:46.037Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-16T20:35:13.628Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5qywrsuutqyis1dckupufv3rnoe6tpw6",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSFAebp07zeQYRikaiAp7cr479qkC93ec859sQjbWuM2aIlzZmcm2el3S4APajvId2i3zrG3dZkT3xV-0MGvPdPzcrh_BxVG_dZOySk5LZNG1N4AZpcpOCsKOtCTJm1CEbYkoECepAluAkVeJSuslIW9P-RuN9w:1w0qne:9SvvkMcQOHjaoEEHaxlYce1uqCDtmpDF2-Q9oJXcoro",
+    "expire_date": "2026-03-27T00:54:46.040Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "name": "Análise e Desenvolvimento de Sistemas",
+    "short_name": "ADS",
+    "grade_year": "2019.2",
+    "calendar_type": "semestral",
+    "description": "",
+    "created_at": "2026-01-17T12:03:37.042Z",
+    "updated_at": "2026-03-13T02:29:52.678Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 5,
+  "fields": {
+    "name": "Técnico em Informática para Internet Integrado ao Ensino Médio",
+    "short_name": "TII",
+    "grade_year": "2024",
+    "calendar_type": "semestral",
+    "description": "",
+    "created_at": "2026-03-13T02:23:19.738Z",
+    "updated_at": "2026-03-13T02:30:02.346Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 6,
+  "fields": {
+    "name": "Técnico em Administração Integrado ao Ensino Médio",
+    "short_name": "TAD",
+    "grade_year": "2024.1",
+    "calendar_type": "semestral",
+    "description": "",
+    "created_at": "2026-03-13T02:51:58.346Z",
+    "updated_at": "2026-03-13T02:51:58.346Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 7,
+  "fields": {
+    "name": "Técnico Subsequente em Administração",
+    "short_name": "STAD",
+    "grade_year": "2017.1",
+    "calendar_type": "semestral",
+    "description": "",
+    "created_at": "2026-03-13T02:52:24.683Z",
+    "updated_at": "2026-03-13T02:54:33.800Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 161,
+  "fields": {
+    "course": 4,
+    "name": "Empreendedorismo em Negócios de TIC",
+    "period": "1",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.045Z",
+    "updated_at": "2026-03-13T02:19:30.926Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 162,
+  "fields": {
+    "course": 4,
+    "name": "Iniciação à Informática",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.048Z",
+    "updated_at": "2026-01-17T12:03:37.048Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 163,
+  "fields": {
+    "course": 4,
+    "name": "Introdução à Programação",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.051Z",
+    "updated_at": "2026-01-17T12:03:37.051Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 164,
+  "fields": {
+    "course": 4,
+    "name": "Língua Inglesa Aplicada",
+    "period": "1",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.053Z",
+    "updated_at": "2026-01-17T12:03:37.053Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 165,
+  "fields": {
+    "course": 4,
+    "name": "Matemática Aplicada",
+    "period": "1",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.056Z",
+    "updated_at": "2026-03-13T02:45:30.378Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 166,
+  "fields": {
+    "course": 4,
+    "name": "Ética e Responsabilidade Socioambiental",
+    "period": "1",
+    "main_area": "other",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.059Z",
+    "updated_at": "2026-03-13T02:19:06.770Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 167,
+  "fields": {
+    "course": 4,
+    "name": "Arquitetura de Computadores",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.061Z",
+    "updated_at": "2026-01-17T12:03:37.061Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 168,
+  "fields": {
+    "course": 4,
+    "name": "Banco de Dados I",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.064Z",
+    "updated_at": "2026-01-17T12:03:37.064Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 169,
+  "fields": {
+    "course": 4,
+    "name": "Engenharia de Software",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.067Z",
+    "updated_at": "2026-01-17T12:03:37.067Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 170,
+  "fields": {
+    "course": 4,
+    "name": "Linguagem de Programação Orientada a Objetos",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Introdução à Programação",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.070Z",
+    "updated_at": "2026-01-17T12:03:37.070Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 171,
+  "fields": {
+    "course": 4,
+    "name": "Estatística Aplicada",
+    "period": "2",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Matemática Aplicada",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.073Z",
+    "updated_at": "2026-03-13T02:19:52.816Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 172,
+  "fields": {
+    "course": 4,
+    "name": "Redes de Computadores",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.075Z",
+    "updated_at": "2026-01-17T12:03:37.075Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 173,
+  "fields": {
+    "course": 4,
+    "name": "Algoritmos e Estruturas de Dados",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.078Z",
+    "updated_at": "2026-01-17T12:03:37.078Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 174,
+  "fields": {
+    "course": 4,
+    "name": "Análise e Projeto de Sistemas",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.081Z",
+    "updated_at": "2026-01-17T12:03:37.081Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 175,
+  "fields": {
+    "course": 4,
+    "name": "Banco de Dados II",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Banco de Dados I",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.083Z",
+    "updated_at": "2026-01-17T12:03:37.083Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 176,
+  "fields": {
+    "course": 4,
+    "name": "Desenvolvimento de Sistemas Web I",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.086Z",
+    "updated_at": "2026-01-17T12:03:37.086Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 177,
+  "fields": {
+    "course": 4,
+    "name": "Inteligência Artificial",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.088Z",
+    "updated_at": "2026-01-17T12:03:37.088Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 178,
+  "fields": {
+    "course": 4,
+    "name": "Desenvolvimento de Sistemas Web II",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Desenvolvimento de Sistemas Web I",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.091Z",
+    "updated_at": "2026-01-17T12:03:37.091Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 179,
+  "fields": {
+    "course": 4,
+    "name": "Metodologia Científica Aplicada",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.094Z",
+    "updated_at": "2026-01-17T12:03:37.094Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 180,
+  "fields": {
+    "course": 4,
+    "name": "Sistemas Distribuídos",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.097Z",
+    "updated_at": "2026-01-17T12:03:37.097Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 181,
+  "fields": {
+    "course": 4,
+    "name": "Sistemas Operacionais",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.100Z",
+    "updated_at": "2026-01-17T12:03:37.100Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 182,
+  "fields": {
+    "course": 4,
+    "name": "Aprendizagem de Máquina",
+    "period": "4",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.103Z",
+    "updated_at": "2026-01-17T12:03:37.103Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 183,
+  "fields": {
+    "course": 4,
+    "name": "Projeto de Desenvolvimento de Sistemas Web",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "Desenvolvimento de Sistemas Web II",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.105Z",
+    "updated_at": "2026-01-17T12:03:37.105Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 184,
+  "fields": {
+    "course": 4,
+    "name": "Introdução ao Trabalho de Conclusão de Curso",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "Metodologia Científica Aplicada",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.108Z",
+    "updated_at": "2026-03-13T02:18:33.529Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 185,
+  "fields": {
+    "course": 4,
+    "name": "Teste de Software",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.111Z",
+    "updated_at": "2026-01-17T12:03:37.111Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 186,
+  "fields": {
+    "course": 4,
+    "name": "Mineração de Dados",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.114Z",
+    "updated_at": "2026-01-17T12:03:37.114Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 187,
+  "fields": {
+    "course": 4,
+    "name": "Gerenciamento de Projetos",
+    "period": "6",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.117Z",
+    "updated_at": "2026-03-13T02:20:07.665Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 188,
+  "fields": {
+    "course": 4,
+    "name": "Programação para Dispositivos Móveis",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.119Z",
+    "updated_at": "2026-01-17T12:03:37.119Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 189,
+  "fields": {
+    "course": 4,
+    "name": "Metodologia da Pesquisa",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "Introdução ao Trabalho de Conclusão de Curso",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.122Z",
+    "updated_at": "2026-01-17T12:03:37.122Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 190,
+  "fields": {
+    "course": 4,
+    "name": "Segurança da Informação",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-01-17T12:03:37.125Z",
+    "updated_at": "2026-01-17T12:03:37.125Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 191,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Sistemas Operacionais",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.128Z",
+    "updated_at": "2026-01-17T12:03:37.128Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 192,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Sistemas Embarcados",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.131Z",
+    "updated_at": "2026-01-17T12:03:37.131Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 193,
+  "fields": {
+    "course": 4,
+    "name": "Tópico Especiais em Inteligência Artificial",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.133Z",
+    "updated_at": "2026-01-17T12:03:37.133Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 194,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Eletrônica",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.136Z",
+    "updated_at": "2026-01-17T12:03:37.136Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 195,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Engenharia de Software",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.138Z",
+    "updated_at": "2026-01-17T12:03:37.139Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 196,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Ciência dos Dados",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.141Z",
+    "updated_at": "2026-01-17T12:03:37.142Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 197,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Banco de Dados",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.145Z",
+    "updated_at": "2026-01-17T12:03:37.145Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 198,
+  "fields": {
+    "course": 4,
+    "name": "Tópicos Especiais em Redes de Computadores",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.148Z",
+    "updated_at": "2026-01-17T12:03:37.148Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 199,
+  "fields": {
+    "course": 4,
+    "name": "Processo Ágeis em Desenvolvimento de Software",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.150Z",
+    "updated_at": "2026-01-17T12:03:37.151Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 200,
+  "fields": {
+    "course": 4,
+    "name": "Programação Funcional",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.153Z",
+    "updated_at": "2026-01-17T12:03:37.153Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 201,
+  "fields": {
+    "course": 4,
+    "name": "Desenvolvimento de Jogos",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.156Z",
+    "updated_at": "2026-01-17T12:03:37.156Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 202,
+  "fields": {
+    "course": 4,
+    "name": "Libras",
+    "period": "0",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.159Z",
+    "updated_at": "2026-01-17T12:03:37.159Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 203,
+  "fields": {
+    "course": 4,
+    "name": "Língua Portuguesa",
+    "period": "0",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.162Z",
+    "updated_at": "2026-01-17T12:03:37.162Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 204,
+  "fields": {
+    "course": 4,
+    "name": "Ergonomia de Software",
+    "period": "0",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": true,
+    "available_periods": "5-6",
+    "created_at": "2026-01-17T12:03:37.165Z",
+    "updated_at": "2026-01-17T12:03:37.165Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 205,
+  "fields": {
+    "course": 5,
+    "name": "Arquitetura de Computadores",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.913Z",
+    "updated_at": "2026-03-13T02:23:26.913Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 206,
+  "fields": {
+    "course": 5,
+    "name": "Informática Básica",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.920Z",
+    "updated_at": "2026-03-13T02:23:26.920Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 207,
+  "fields": {
+    "course": 5,
+    "name": "Introdução à Programação",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.928Z",
+    "updated_at": "2026-03-13T02:23:26.928Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 208,
+  "fields": {
+    "course": 5,
+    "name": "Matemática Aplicada",
+    "period": "1",
+    "main_area": "other",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.937Z",
+    "updated_at": "2026-03-13T02:24:37.298Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 209,
+  "fields": {
+    "course": 5,
+    "name": "Programação Aplicada",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Introdução à Programação",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.941Z",
+    "updated_at": "2026-03-13T02:23:26.941Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 210,
+  "fields": {
+    "course": 5,
+    "name": "Banco de Dados I",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.945Z",
+    "updated_at": "2026-03-13T02:23:26.945Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 211,
+  "fields": {
+    "course": 5,
+    "name": "Desenvolvimento de Sistemas Web I",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.953Z",
+    "updated_at": "2026-03-13T02:23:26.953Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 212,
+  "fields": {
+    "course": 5,
+    "name": "Introdução à Segurança da Informação",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.959Z",
+    "updated_at": "2026-03-13T02:23:26.959Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 213,
+  "fields": {
+    "course": 5,
+    "name": "Sistemas Operacionais",
+    "period": "3",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.962Z",
+    "updated_at": "2026-03-13T02:23:26.962Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 214,
+  "fields": {
+    "course": 5,
+    "name": "Administração de Sistemas Operacionais",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Sistemas Operacionais",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.967Z",
+    "updated_at": "2026-03-13T02:23:26.967Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 215,
+  "fields": {
+    "course": 5,
+    "name": "Banco de Dados II",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "Banco de Dados I",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.971Z",
+    "updated_at": "2026-03-13T02:23:26.971Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 216,
+  "fields": {
+    "course": 5,
+    "name": "Desenvolvimento de Sistemas Web II",
+    "period": "4",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "Desenvolvimento de Sistemas Web I",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.977Z",
+    "updated_at": "2026-03-13T02:23:26.977Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 217,
+  "fields": {
+    "course": 5,
+    "name": "Ética Profissional",
+    "period": "4",
+    "main_area": "other",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.980Z",
+    "updated_at": "2026-03-13T02:24:23.828Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 218,
+  "fields": {
+    "course": 5,
+    "name": "Desenvolvimento de Sistemas Web III",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "Desenvolvimento de Sistemas Web II",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.983Z",
+    "updated_at": "2026-03-13T02:23:26.983Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 219,
+  "fields": {
+    "course": 5,
+    "name": "Empreendedorismo",
+    "period": "5",
+    "main_area": "other",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.987Z",
+    "updated_at": "2026-03-13T02:23:26.987Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 220,
+  "fields": {
+    "course": 5,
+    "name": "Introdução à Pesquisa",
+    "period": "5",
+    "main_area": "other",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.990Z",
+    "updated_at": "2026-03-13T02:23:26.990Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 221,
+  "fields": {
+    "course": 5,
+    "name": "Introdução a Sistemas Embarcados",
+    "period": "5",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.993Z",
+    "updated_at": "2026-03-13T02:23:26.993Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 222,
+  "fields": {
+    "course": 5,
+    "name": "Segurança Meio Ambiente e Saúde",
+    "period": "5",
+    "main_area": "other",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:26.996Z",
+    "updated_at": "2026-03-13T02:24:11.395Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 223,
+  "fields": {
+    "course": 5,
+    "name": "Desenvolvimento de Sistemas Web IV",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 3,
+    "ch_aula": 60,
+    "ch_relogio": 45,
+    "pre_requisito": "Desenvolvimento de Sistemas Web III",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:27.000Z",
+    "updated_at": "2026-03-13T02:23:27.000Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 224,
+  "fields": {
+    "course": 5,
+    "name": "Introdução à Inteligência Artificial",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:27.003Z",
+    "updated_at": "2026-03-13T02:23:27.003Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 225,
+  "fields": {
+    "course": 5,
+    "name": "Pesquisa Científica",
+    "period": "6",
+    "main_area": "other",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "Introdução à Pesquisa",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:27.006Z",
+    "updated_at": "2026-03-13T02:23:27.006Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 226,
+  "fields": {
+    "course": 5,
+    "name": "Sistemas Embarcados",
+    "period": "6",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "Introdução a Sistemas Embarcados",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:23:27.010Z",
+    "updated_at": "2026-03-13T02:23:27.010Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 227,
+  "fields": {
+    "course": 6,
+    "name": "Informática Básica",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:53:27.084Z",
+    "updated_at": "2026-03-13T03:12:16.699Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 228,
+  "fields": {
+    "course": 7,
+    "name": "Informática Básica",
+    "period": "1",
+    "main_area": "computação",
+    "description": "",
+    "credits": 2,
+    "ch_aula": 40,
+    "ch_relogio": 30,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T02:54:14.252Z",
+    "updated_at": "2026-03-13T02:54:14.252Z"
+  }
+},
+{
+  "model": "courses.discipline",
+  "pk": 229,
+  "fields": {
+    "course": 5,
+    "name": "Redes de Computadores",
+    "period": "2",
+    "main_area": "computação",
+    "description": "",
+    "credits": 4,
+    "ch_aula": 80,
+    "ch_relogio": 60,
+    "pre_requisito": "",
+    "co_requisito": "",
+    "is_elective": false,
+    "available_periods": "",
+    "created_at": "2026-03-13T03:09:55.846Z",
+    "updated_at": "2026-03-13T03:09:55.846Z"
+  }
+},
+{
+  "model": "courses.courseelectiveslot",
+  "pk": 1,
+  "fields": {
+    "course": 4,
+    "period": "5",
+    "count": 2,
+    "credits": 4,
+    "ch_relogio": 60
+  }
+},
+{
+  "model": "courses.courseelectiveslot",
+  "pk": 2,
+  "fields": {
+    "course": 4,
+    "period": "6",
+    "count": 2,
+    "credits": 4,
+    "ch_relogio": 60
+  }
+},
+{
+  "model": "professors.workloadnorm",
+  "pk": 1,
+  "fields": {
+    "name": "Resolução CONSUP/IFPE nº 8/2020",
+    "resolution_number": "8/2020",
+    "effective_date": "2020-01-01",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T01:46:14.657Z"
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 1,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "40h_DE",
+    "class_duration": 45,
+    "min_classes": 14,
+    "max_classes": 24
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 2,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "20h",
+    "class_duration": 45,
+    "min_classes": 11,
+    "max_classes": 14
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 3,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "40h_DE",
+    "class_duration": 45,
+    "min_classes": 14,
+    "max_classes": 16
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 4,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "20h",
+    "class_duration": 45,
+    "min_classes": 11,
+    "max_classes": 14
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 5,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "40h_DE",
+    "class_duration": 45,
+    "min_classes": 14,
+    "max_classes": 16
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 6,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "20h",
+    "class_duration": 45,
+    "min_classes": 11,
+    "max_classes": 14
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 7,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "40h_DE",
+    "class_duration": 45,
+    "min_classes": 14,
+    "max_classes": 14
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 8,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "20h",
+    "class_duration": 45,
+    "min_classes": 11,
+    "max_classes": 11
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 9,
+  "fields": {
+    "norm": 1,
+    "work_group": "V",
+    "contract_type": "40h_DE",
+    "class_duration": 45,
+    "min_classes": 3,
+    "max_classes": 11
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 10,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "40h_DE",
+    "class_duration": 50,
+    "min_classes": 12,
+    "max_classes": 21
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 11,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "20h",
+    "class_duration": 50,
+    "min_classes": 10,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 12,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "40h_DE",
+    "class_duration": 50,
+    "min_classes": 12,
+    "max_classes": 15
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 13,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "20h",
+    "class_duration": 50,
+    "min_classes": 10,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 14,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "40h_DE",
+    "class_duration": 50,
+    "min_classes": 12,
+    "max_classes": 15
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 15,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "20h",
+    "class_duration": 50,
+    "min_classes": 10,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 16,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "40h_DE",
+    "class_duration": 50,
+    "min_classes": 12,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 17,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "20h",
+    "class_duration": 50,
+    "min_classes": 10,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 18,
+  "fields": {
+    "norm": 1,
+    "work_group": "V",
+    "contract_type": "40h_DE",
+    "class_duration": 50,
+    "min_classes": 3,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 19,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "40h_DE",
+    "class_duration": 60,
+    "min_classes": 10,
+    "max_classes": 18
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 20,
+  "fields": {
+    "norm": 1,
+    "work_group": "I",
+    "contract_type": "20h",
+    "class_duration": 60,
+    "min_classes": 8,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 21,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "40h_DE",
+    "class_duration": 60,
+    "min_classes": 10,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 22,
+  "fields": {
+    "norm": 1,
+    "work_group": "II",
+    "contract_type": "20h",
+    "class_duration": 60,
+    "min_classes": 8,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 23,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "40h_DE",
+    "class_duration": 60,
+    "min_classes": 10,
+    "max_classes": 12
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 24,
+  "fields": {
+    "norm": 1,
+    "work_group": "III",
+    "contract_type": "20h",
+    "class_duration": 60,
+    "min_classes": 8,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 25,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "40h_DE",
+    "class_duration": 60,
+    "min_classes": 10,
+    "max_classes": 10
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 26,
+  "fields": {
+    "norm": 1,
+    "work_group": "IV",
+    "contract_type": "20h",
+    "class_duration": 60,
+    "min_classes": 8,
+    "max_classes": 8
+  }
+},
+{
+  "model": "professors.workloadnormentry",
+  "pk": 27,
+  "fields": {
+    "norm": 1,
+    "work_group": "V",
+    "contract_type": "40h_DE",
+    "class_duration": 60,
+    "min_classes": 2,
+    "max_classes": 8
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 1,
+  "fields": {
+    "name": "Rodrigo Lira",
+    "work_group": "IV",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.894Z",
+    "updated_at": "2026-03-13T01:58:56.918Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 2,
+  "fields": {
+    "name": "Rosângela Maria",
+    "work_group": "II",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.908Z",
+    "updated_at": "2026-03-13T01:56:15.171Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 3,
+  "fields": {
+    "name": "Ivanildo Jose",
+    "work_group": "II",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.913Z",
+    "updated_at": "2026-03-13T01:55:32.992Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 4,
+  "fields": {
+    "name": "Rodrigo Rocha",
+    "work_group": "I",
+    "contract_type": "40h",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.918Z",
+    "updated_at": "2026-03-13T01:56:24.954Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 5,
+  "fields": {
+    "name": "Flávio Oliveira",
+    "work_group": "III",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.923Z",
+    "updated_at": "2026-03-13T01:59:22.188Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 6,
+  "fields": {
+    "name": "Anderson Queiroz",
+    "work_group": "I",
+    "contract_type": "DE",
+    "is_on_leave": true,
+    "created_at": "2026-01-16T20:56:17.928Z",
+    "updated_at": "2026-03-13T01:55:02.687Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 7,
+  "fields": {
+    "name": "Antônio Neto",
+    "work_group": "IV",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.934Z",
+    "updated_at": "2026-03-13T01:58:50.587Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 8,
+  "fields": {
+    "name": "Bruno Cartaxo",
+    "work_group": "I",
+    "contract_type": "20h",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.942Z",
+    "updated_at": "2026-03-13T01:48:09.919Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 9,
+  "fields": {
+    "name": "Paulo Roger",
+    "work_group": "I",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.946Z",
+    "updated_at": "2026-03-13T01:56:40.630Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 10,
+  "fields": {
+    "name": "Wilbert Satana",
+    "work_group": "I",
+    "contract_type": "20h",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.951Z",
+    "updated_at": "2026-03-13T01:56:07.843Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 11,
+  "fields": {
+    "name": "Marconi Carvalho",
+    "work_group": "I",
+    "contract_type": "20h",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.956Z",
+    "updated_at": "2026-03-13T01:55:39.917Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 12,
+  "fields": {
+    "name": "David Alain",
+    "work_group": "II",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.964Z",
+    "updated_at": "2026-03-13T01:54:58.628Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 13,
+  "fields": {
+    "name": "Mércio Andrade",
+    "work_group": "I",
+    "contract_type": "DE",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.975Z",
+    "updated_at": "2026-03-13T01:55:55.433Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 14,
+  "fields": {
+    "name": "Mário Melo",
+    "work_group": "I",
+    "contract_type": "40h",
+    "is_on_leave": false,
+    "created_at": "2026-01-16T20:56:17.981Z",
+    "updated_at": "2026-03-13T01:55:47.829Z"
+  }
+},
+{
+  "model": "professors.professor",
+  "pk": 15,
+  "fields": {
+    "name": "Felipe Farias",
+    "work_group": "I",
+    "contract_type": "DE",
+    "is_on_leave": true,
+    "created_at": "2026-03-13T01:55:17.289Z",
+    "updated_at": "2026-03-13T01:55:17.289Z"
+  }
+},
+{
+  "model": "planning.semesterplan",
+  "pk": 1,
+  "fields": {
+    "name": "Análise e Desenvolvimento de Sistemas",
+    "semester": "2026.1",
+    "course": 4,
+    "description": "",
+    "created_at": "2026-01-17T12:17:23.363Z",
+    "updated_at": "2026-01-17T12:17:23.363Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 1,
+  "fields": {
+    "plan": 1,
+    "discipline": 193,
+    "classes_count": 1,
+    "assigned_period": "5",
+    "notes": "",
+    "created_at": "2026-01-17T12:58:09.794Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 2,
+  "fields": {
+    "plan": 1,
+    "discipline": 161,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.434Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 3,
+  "fields": {
+    "plan": 1,
+    "discipline": 162,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.444Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 4,
+  "fields": {
+    "plan": 1,
+    "discipline": 163,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.447Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 5,
+  "fields": {
+    "plan": 1,
+    "discipline": 164,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.451Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 6,
+  "fields": {
+    "plan": 1,
+    "discipline": 165,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.456Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 7,
+  "fields": {
+    "plan": 1,
+    "discipline": 166,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.459Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 8,
+  "fields": {
+    "plan": 1,
+    "discipline": 167,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.463Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 9,
+  "fields": {
+    "plan": 1,
+    "discipline": 168,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.467Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 10,
+  "fields": {
+    "plan": 1,
+    "discipline": 169,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.471Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 11,
+  "fields": {
+    "plan": 1,
+    "discipline": 171,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.475Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 12,
+  "fields": {
+    "plan": 1,
+    "discipline": 170,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.479Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 13,
+  "fields": {
+    "plan": 1,
+    "discipline": 172,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.484Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 14,
+  "fields": {
+    "plan": 1,
+    "discipline": 173,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.488Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 15,
+  "fields": {
+    "plan": 1,
+    "discipline": 174,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.491Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 16,
+  "fields": {
+    "plan": 1,
+    "discipline": 175,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.495Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 17,
+  "fields": {
+    "plan": 1,
+    "discipline": 176,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.499Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 18,
+  "fields": {
+    "plan": 1,
+    "discipline": 177,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.503Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 19,
+  "fields": {
+    "plan": 1,
+    "discipline": 182,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.509Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 20,
+  "fields": {
+    "plan": 1,
+    "discipline": 178,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.513Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 21,
+  "fields": {
+    "plan": 1,
+    "discipline": 179,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.517Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 22,
+  "fields": {
+    "plan": 1,
+    "discipline": 180,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.521Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 23,
+  "fields": {
+    "plan": 1,
+    "discipline": 181,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.523Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 24,
+  "fields": {
+    "plan": 1,
+    "discipline": 184,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.526Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 25,
+  "fields": {
+    "plan": 1,
+    "discipline": 186,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.530Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 26,
+  "fields": {
+    "plan": 1,
+    "discipline": 183,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.533Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 27,
+  "fields": {
+    "plan": 1,
+    "discipline": 185,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.537Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 28,
+  "fields": {
+    "plan": 1,
+    "discipline": 187,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.539Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 29,
+  "fields": {
+    "plan": 1,
+    "discipline": 189,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.542Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 30,
+  "fields": {
+    "plan": 1,
+    "discipline": 188,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.545Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 31,
+  "fields": {
+    "plan": 1,
+    "discipline": 190,
+    "classes_count": 1,
+    "assigned_period": "",
+    "notes": "",
+    "created_at": "2026-01-17T12:59:05.548Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 32,
+  "fields": {
+    "plan": 1,
+    "discipline": 192,
+    "classes_count": 1,
+    "assigned_period": "5",
+    "notes": "",
+    "created_at": "2026-01-17T13:09:04.658Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 33,
+  "fields": {
+    "plan": 1,
+    "discipline": 199,
+    "classes_count": 1,
+    "assigned_period": "6",
+    "notes": "",
+    "created_at": "2026-01-17T13:09:49.938Z"
+  }
+},
+{
+  "model": "planning.plandiscipline",
+  "pk": 34,
+  "fields": {
+    "plan": 1,
+    "discipline": 194,
+    "classes_count": 1,
+    "assigned_period": "6",
+    "notes": "",
+    "created_at": "2026-01-17T13:10:07.539Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 1,
+  "fields": {
+    "course": 4,
+    "start_semester": "2026.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-12T23:59:55.936Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 2,
+  "fields": {
+    "course": 4,
+    "start_semester": "2026.2",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:00:24.600Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 3,
+  "fields": {
+    "course": 4,
+    "start_semester": "2026.2",
+    "label": "Noite",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:00:50.613Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 4,
+  "fields": {
+    "course": 4,
+    "start_semester": "2025.2",
+    "label": "Noite",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:01:43.683Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 5,
+  "fields": {
+    "course": 4,
+    "start_semester": "2025.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:01:58.503Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 6,
+  "fields": {
+    "course": 4,
+    "start_semester": "2024.2",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:02:12.195Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 7,
+  "fields": {
+    "course": 4,
+    "start_semester": "2024.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:04:53.495Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 8,
+  "fields": {
+    "course": 4,
+    "start_semester": "2023.2",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:05:49.078Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 9,
+  "fields": {
+    "course": 4,
+    "start_semester": "2027.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T00:09:21.389Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 10,
+  "fields": {
+    "course": 4,
+    "start_semester": "2027.2",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T01:03:29.086Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 11,
+  "fields": {
+    "course": 4,
+    "start_semester": "2027.2",
+    "label": "Noite",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T01:03:52.271Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 12,
+  "fields": {
+    "course": 4,
+    "start_semester": "2028.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T01:04:05.688Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 14,
+  "fields": {
+    "course": 4,
+    "start_semester": "2028.2",
+    "label": "Noite",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T01:06:37.001Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 16,
+  "fields": {
+    "course": 4,
+    "start_semester": "2029.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:03:11.724Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 17,
+  "fields": {
+    "course": 5,
+    "start_semester": "2024.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:25:59.805Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 18,
+  "fields": {
+    "course": 5,
+    "start_semester": "2025.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:26:09.620Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 19,
+  "fields": {
+    "course": 5,
+    "start_semester": "2026.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:26:21.499Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 20,
+  "fields": {
+    "course": 5,
+    "start_semester": "2027.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:36:39.582Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 21,
+  "fields": {
+    "course": 5,
+    "start_semester": "2028.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:36:51.003Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 22,
+  "fields": {
+    "course": 6,
+    "start_semester": "2024.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:55:24.915Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 23,
+  "fields": {
+    "course": 6,
+    "start_semester": "2025.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:55:40.590Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 24,
+  "fields": {
+    "course": 6,
+    "start_semester": "2026.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:55:52.113Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 25,
+  "fields": {
+    "course": 6,
+    "start_semester": "2027.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:56:03.829Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 26,
+  "fields": {
+    "course": 6,
+    "start_semester": "2028.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:56:16.431Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 27,
+  "fields": {
+    "course": 6,
+    "start_semester": "2029.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:56:31.963Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 28,
+  "fields": {
+    "course": 5,
+    "start_semester": "2029.1",
+    "label": "Manhã",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:57:07.481Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 29,
+  "fields": {
+    "course": 7,
+    "start_semester": "2026.1",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:58:07.564Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 30,
+  "fields": {
+    "course": 7,
+    "start_semester": "2027.1",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:58:22.065Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 31,
+  "fields": {
+    "course": 7,
+    "start_semester": "2027.2",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:58:44.980Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 32,
+  "fields": {
+    "course": 7,
+    "start_semester": "2026.2",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T02:59:17.782Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 33,
+  "fields": {
+    "course": 7,
+    "start_semester": "2028.1",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T03:00:44.098Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 34,
+  "fields": {
+    "course": 7,
+    "start_semester": "2028.2",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T03:01:09.917Z"
+  }
+},
+{
+  "model": "planning.classentry",
+  "pk": 35,
+  "fields": {
+    "course": 7,
+    "start_semester": "2029.1",
+    "label": "Tarde",
+    "is_active": true,
+    "notes": "",
+    "created_at": "2026-03-13T03:01:25.633Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-03-13T00:58:48.898Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "4",
+    "object_repr": "Análise e Desenvolvimento de Sistemas (Semestral)",
+    "action_flag": 2,
+    "change_message": "[{\"added\": {\"name\": \"Configura\\u00e7\\u00e3o de Optativas\", \"object\": \"An\\u00e1lise e Desenvolvimento de Sistemas \\u2014 2 optativa(s) no 5\\u00ba per\\u00edodo\"}}, {\"added\": {\"name\": \"Configura\\u00e7\\u00e3o de Optativas\", \"object\": \"An\\u00e1lise e Desenvolvimento de Sistemas \\u2014 2 optativa(s) no 6\\u00ba per\\u00edodo\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-03-13T01:48:09.921Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "8",
+    "object_repr": "Bruno Cartaxo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-03-13T01:48:52.726Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "6",
+    "object_repr": "Anderson Queiroz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-03-13T01:54:51.309Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "7",
+    "object_repr": "Antônio Neto",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-03-13T01:54:58.629Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "12",
+    "object_repr": "David Alain",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-03-13T01:55:02.689Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "6",
+    "object_repr": "Anderson Queiroz",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Afastado\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-03-13T01:55:17.290Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "15",
+    "object_repr": "Felipe Farias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-03-13T01:55:25.618Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "5",
+    "object_repr": "Flávio Oliveira",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-03-13T01:55:32.994Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "3",
+    "object_repr": "Ivanildo Jose",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-03-13T01:55:39.918Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "11",
+    "object_repr": "Marconi Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-03-13T01:55:47.830Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "14",
+    "object_repr": "Mário Melo",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-03-13T01:55:55.435Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "13",
+    "object_repr": "Mércio Andrade",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-03-13T01:56:07.845Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "10",
+    "object_repr": "Wilbert Satana",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-03-13T01:56:15.172Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "2",
+    "object_repr": "Rosângela Maria",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-03-13T01:56:24.955Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "4",
+    "object_repr": "Rodrigo Rocha",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-03-13T01:56:34.291Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "1",
+    "object_repr": "Rodrigo Lira",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-03-13T01:56:40.631Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "9",
+    "object_repr": "Paulo Roger",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\", \"Regime de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-03-13T01:58:50.588Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "7",
+    "object_repr": "Antônio Neto",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2026-03-13T01:58:56.919Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "1",
+    "object_repr": "Rodrigo Lira",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2026-03-13T01:59:22.188Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "professors",
+      "professor"
+    ],
+    "object_id": "5",
+    "object_repr": "Flávio Oliveira",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Grupo de Trabalho\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2026-03-13T02:18:33.530Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "184",
+    "object_repr": "Introdução ao Trabalho de Conclusão de Curso - Análise e Desenvolvimento de Sistemas (5)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2026-03-13T02:19:06.771Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "166",
+    "object_repr": "Ética e Responsabilidade Socioambiental - Análise e Desenvolvimento de Sistemas (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2026-03-13T02:19:30.926Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "161",
+    "object_repr": "Empreendedorismo em Negócios de TIC - Análise e Desenvolvimento de Sistemas (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2026-03-13T02:19:52.817Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "171",
+    "object_repr": "Estatística Aplicada - Análise e Desenvolvimento de Sistemas (2)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2026-03-13T02:20:07.666Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "187",
+    "object_repr": "Gerenciamento de Projetos - Análise e Desenvolvimento de Sistemas (6)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2026-03-13T02:24:11.396Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "222",
+    "object_repr": "Segurança Meio Ambiente e Saúde - Técnico em Informática para Internet Integrado ao Ensino Médio (5)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2026-03-13T02:24:23.829Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "217",
+    "object_repr": "Ética Profissional - Técnico em Informática para Internet Integrado ao Ensino Médio (4)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2026-03-13T02:24:37.299Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "208",
+    "object_repr": "Matemática Aplicada - Técnico em Informática para Internet Integrado ao Ensino Médio (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2026-03-13T02:29:52.679Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "4",
+    "object_repr": "Análise e Desenvolvimento de Sistemas (Semestral)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Abrevia\\u00e7\\u00e3o\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2026-03-13T02:30:02.347Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "5",
+    "object_repr": "Técnico em Informática para Internet Integrado ao Ensino Médio (Semestral)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Abrevia\\u00e7\\u00e3o\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2026-03-13T02:45:30.379Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "165",
+    "object_repr": "Matemática Aplicada - Análise e Desenvolvimento de Sistemas (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main Area\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2026-03-13T02:51:58.348Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "6",
+    "object_repr": "Técnico em Administração Integrado ao Ensino Médio (Semestral)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2026-03-13T02:52:24.684Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "7",
+    "object_repr": "Subsequente em Técnico em Administração (Semestral)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2026-03-13T02:53:27.084Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "227",
+    "object_repr": "Informática Básica - Subsequente em Técnico em Administração (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2026-03-13T02:54:14.253Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "228",
+    "object_repr": "Informática Básica - Subsequente em Técnico em Administração (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2026-03-13T02:54:33.800Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "course"
+    ],
+    "object_id": "7",
+    "object_repr": "Técnico Subsequente em Administração (Semestral)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Course Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2026-03-13T03:09:55.846Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "229",
+    "object_repr": "Redes de Computadores - Técnico em Informática para Internet Integrado ao Ensino Médio (2)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2026-03-13T03:12:16.700Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "courses",
+      "discipline"
+    ],
+    "object_id": "227",
+    "object_repr": "Informática Básica - Técnico em Administração Integrado ao Ensino Médio (1)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Course\"]}}]"
+  }
+}
+]

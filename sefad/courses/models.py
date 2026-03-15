@@ -16,6 +16,12 @@ class Course(models.Model):
     ]
 
     name = models.CharField(max_length=200, verbose_name="Course Name")
+    short_name = models.CharField(
+        max_length=20,
+        blank=True,
+        verbose_name="Abreviação",
+        help_text='Sigla ou nome curto para exibição (ex: "ADS", "TII")',
+    )
     grade_year = models.CharField(
         max_length=20,
         default="2019.2",
@@ -120,6 +126,17 @@ class Discipline(models.Model):
         verbose_name="Co-requisite",
         help_text="Co-requisite discipline(s)",
     )
+    is_elective = models.BooleanField(
+        default=False,
+        verbose_name="Optativa",
+        help_text="Indicates if the discipline is elective",
+    )
+    available_periods = models.CharField(
+        max_length=50,
+        blank=True,
+        verbose_name="Available Periods",
+        help_text="Periods when elective can be taken (e.g., '5,6' for periods 5 and 6)",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -137,3 +154,47 @@ class Discipline(models.Model):
             return self.SEMESTER_PERIODS
         else:
             return self.YEARLY_PERIODS
+
+
+class CourseElectiveSlot(models.Model):
+    """
+    Configures how many elective disciplines are offered in a given period of a course.
+    Used to include elective workload in semester projections (e.g., ADS periods 5 and 6
+    each have 2 electives per the PPC).
+    """
+
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="elective_slots",
+        verbose_name="Curso",
+    )
+    period = models.CharField(
+        max_length=20,
+        verbose_name="Período",
+        help_text="Período em que as optativas são ofertadas (ex: '5')",
+    )
+    count = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Qtd. de Optativas",
+        help_text="Número de disciplinas optativas ofertadas neste período",
+    )
+    credits = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Créditos por Optativa",
+        help_text="Créditos de cada disciplina optativa (conforme PPC)",
+    )
+    ch_relogio = models.PositiveIntegerField(
+        default=0,
+        verbose_name="CH por Optativa (h)",
+        help_text="Carga horária relógio de cada optativa (conforme PPC)",
+    )
+
+    class Meta:
+        ordering = ["period"]
+        unique_together = ["course", "period"]
+        verbose_name = "Configuração de Optativas"
+        verbose_name_plural = "Configurações de Optativas"
+
+    def __str__(self):
+        return f"{self.course.name} — {self.count} optativa(s) no {self.period}º período"

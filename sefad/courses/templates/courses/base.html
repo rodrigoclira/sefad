@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de Estimativa de Força Acadêmica Docente - Gerenciamento de Cursos e Disciplinas">
+    <meta name="description" content="Sistema de Estimativa de Esforço Acadêmico Docente - Gerenciamento de Cursos e Disciplinas">
     <title>{% block title %}SEFAD - Course Management{% endblock %}</title>
     <style>
         :root {
@@ -73,7 +73,7 @@
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -291,6 +291,127 @@
             background-color: #b91c1c;
         }
 
+        .btn-sm {
+            padding: 0.4rem 0.875rem;
+            font-size: 0.85rem;
+        }
+
+        .course-detail-header {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #bbf7d0;
+        }
+
+        .course-title-section h2 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+
+        .course-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .course-meta-info {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding-top: 1rem;
+            border-top: 1px solid #bbf7d0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .course-description-box {
+            background-color: var(--background);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .course-description-box h3 {
+            margin-top: 0;
+            color: var(--success-color);
+        }
+
+        .disciplines-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .discipline-name {
+            font-weight: 500;
+        }
+
+        .discipline-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .discipline-name a:hover {
+            color: var(--primary-color);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .period-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #dbeafe;
+            color: #1e40af;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .area-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #fef3c7;
+            color: #92400e;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -395,7 +516,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -477,7 +598,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -551,7 +672,781 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* Planning App Styles */
+        .plan-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-box h3 {
+            color: #16a34a;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .summary-item.highlight {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .summary-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .disciplines-section {
+            margin-top: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .add-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        th.text-center {
+            text-align: center;
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td.text-center {
+            text-align: center;
+        }
+
+        .discipline-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .discipline-name a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .period-badge {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .highlight-value {
+            color: var(--success-color);
+            font-size: 1.1rem;
+        }
+
+        .notes-cell {
+            max-width: 200px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .action-buttons-inline {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        /* Form Styles */
+        .form-container {
+            max-width: 700px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            border-color: var(--danger-color);
+            color: #991b1b;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            border-color: var(--success-color);
+            color: #15803d;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            border-color: var(--info-color);
+            color: #075985;
+        }
+
+        .messages {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .disciplines-quick-view {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .period-section h5 {
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .discipline-list-compact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .discipline-list-compact li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .discipline-list-compact li:last-child {
+            border-bottom: none;
+        }
+
+        .periods-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .period-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .period-card h5 {
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .period-stats {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .period-preview {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .period-preview h4 {
+            color: var(--success-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .preview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+
+        .preview-list li {
+            padding: 0.5rem;
+            background: white;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-summary {
+            display: flex;
+            gap: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #bbf7d0;
+            font-weight: 600;
+            color: var(--success-color);
+        }
+
+        .discipline-info-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .discipline-info-box h4 {
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .calculation-preview {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calculation-preview h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .calc-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 2px solid var(--success-color);
+        }
+
+        .calc-label {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .calc-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        /* Delete Confirmation */
+        .confirm-delete-container {
+            max-width: 600px;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 2px solid var(--danger-color);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .warning-box h2 {
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+        }
+
+        .plan-info-box {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .plan-info-box h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-info-box p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .delete-warning {
+            background: white;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .delete-warning h4 {
+            color: var(--danger-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .delete-warning ul {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .delete-warning li {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .warning-text {
+            font-weight: 600;
+            color: var(--danger-color);
+            margin-top: 1rem;
+        }
+
+        /* Plan List Styles */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .plan-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .plan-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            border-color: #22c55e;
+        }
+
+        .plan-card-header {
+            padding: 1.75rem;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .plan-title {
+            margin: 0 0 1rem 0;
+            font-size: 1.375rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #111827;
+        }
+
+        .plan-title a {
+            color: #111827;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .plan-title a:hover {
+            color: #22c55e;
+        }
+
+        .plan-title-section {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .semester-badge {
+            display: inline-block;
+            padding: 0.375rem 0.875rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+        }
+
+        .course-badge {
+            display: inline-block;
+            padding: 0.375rem 0.875rem;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+        }
+
+        .plan-meta-info {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .meta-date {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .meta-date::before {
+            content: "📅";
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .plan-description {
+            padding: 1.25rem 1.75rem;
+            color: #6b7280;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin: 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .plan-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.5rem 1.75rem;
+            background: white;
+            border-right: 1px solid #f3f4f6;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.2s;
+        }
+
+        .stat-item:nth-child(even) {
+            border-right: none;
+        }
+
+        .stat-item:nth-child(3),
+        .stat-item:nth-child(4) {
+            border-bottom: none;
+        }
+
+        .stat-item:hover {
+            background: #fafafa;
+        }
+
+        .stat-item.stat-highlight {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .stat-item.stat-highlight:hover {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .stat-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111827;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-text {
+            font-size: 0.8125rem;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-card-footer {
+            padding: 1.5rem 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            background: #fafafa;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .btn-view-details {
+            flex: 1;
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            text-align: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.15);
+        }
+
+        .btn-view-details:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 6px 12px rgba(34, 197, 94, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .plan-quick-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem 1rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-icon:hover {
+            background: white;
+            border-color: #9ca3af;
+            color: #111827;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-icon-danger {
+            color: #dc2626;
+        }
+
+        .btn-icon-danger:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .plan-card-header {
+                padding: 1.25rem;
+            }
+
+            .stat-item {
+                padding: 1.25rem;
+            }
+
+            .plan-card-footer {
+                flex-direction: column;
+                padding: 1.25rem;
+            }
+
+            .plan-quick-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .btn-icon {
+                flex: 1;
+            }
+        }
     </style>
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <div class="top-bar">
@@ -560,14 +1455,17 @@
                 <div class="logo">
                     <div class="logo-icon">S</div>
                     <h1>
-                        SEFAD
-                        <small>Sistema de Estimativa de Força Acadêmica Docente</small>
+                        SEEAD
+                        <small>Sistema de Estimativa de Esforço Acadêmico Docente</small>
                     </h1>
                 </div>
                 <nav>
                     <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Cursos</a>
                     <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Disciplinas</a>
                     <a href="{% url 'professors:professor_list' %}" class="btn btn-secondary">Professores</a>
+                    <a href="{% url 'planning:plan_list' %}" class="btn btn-secondary">Planejamentos</a>
+                    <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Turmas</a>
+                    <a href="{% url 'planning:projection' %}" class="btn btn-secondary">Projeção</a>
                     <a href="/admin/" class="btn btn-primary">Admin</a>
                 </nav>
             </div>

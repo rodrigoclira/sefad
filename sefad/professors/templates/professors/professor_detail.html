@@ -3,7 +3,10 @@
 {% block title %}{{ professor.name }} - SEFAD{% endblock %}
 
 {% block content %}
-<h2>{{ professor.name }}</h2>
+<div class="section-header">
+    <h2>{{ professor.name }}</h2>
+    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-primary">Editar</a>
+</div>
 
 <div class="professor-detail-card">
     <div class="professor-detail-header">
@@ -20,15 +23,78 @@
             </p>
         </div>
     </div>
-    
-    <div class="professor-section">
-        <h3>Informações</h3>
-        <p class="info-message">Mais informações sobre este professor serão adicionadas em breve.</p>
+
+    {# Vínculo #}
+    <div class="professor-section" style="margin-top:1.5rem;">
+        <h3>Vínculo</h3>
+        {% if professor.is_on_leave %}
+        <div style="margin-bottom:0.75rem;">
+            <span style="display:inline-block;padding:0.2rem 0.7rem;border-radius:4px;background:#f59e0b22;color:#b45309;border:1px solid #f59e0b55;font-size:0.85rem;font-weight:600;">Afastado</span>
+        </div>
+        {% endif %}
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+            <div>
+                <span style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Grupo de Trabalho</span><br>
+                {% if professor.work_group %}
+                <span class="semester-badge" style="font-size:1rem;">Grupo {{ professor.work_group }}</span>
+                {% else %}
+                <span style="color:var(--text-muted);">—</span>
+                {% endif %}
+            </div>
+            <div>
+                <span style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Regime de Trabalho</span><br>
+                {% if professor.contract_type %}
+                <span class="semester-badge" style="font-size:1rem;">{{ professor.get_contract_type_display }}</span>
+                {% else %}
+                <span style="color:var(--text-muted);">—</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# Limites de CH conforme normatização #}
+    <div class="professor-section" style="margin-top:1.5rem;">
+        <h3>Carga Horária de Aulas (Normatização Docente)</h3>
+        {% if active_norm %}
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">
+            Fonte: {{ active_norm.name }}
+        </p>
+        {% endif %}
+
+        {% if workload_limits %}
+        <div class="table-container" style="margin:0;">
+            <table class="data-table" style="margin:0;max-width:420px;">
+                <thead>
+                    <tr>
+                        <th>Tempo de Aula</th>
+                        <th style="text-align:center;">Mín. Aulas/Sem</th>
+                        <th style="text-align:center;">Máx. Aulas/Sem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for duration, lim in workload_limits.items %}
+                    <tr>
+                        <td>{{ duration }} min</td>
+                        <td style="text-align:center;font-weight:600;">{{ lim.min }}</td>
+                        <td style="text-align:center;font-weight:600;">{{ lim.max }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% elif professor.work_group and professor.contract_type %}
+        <p style="color:var(--text-muted);">
+            Combinação de Grupo {{ professor.work_group }} + {{ professor.get_contract_type_display }} não se aplica à normatização ativa (N/A).
+        </p>
+        {% else %}
+        <p style="color:var(--text-muted);">
+            Defina o grupo de trabalho e o regime de contrato para ver os limites.
+        </p>
+        {% endif %}
     </div>
 </div>
 
-<div style="margin-top: 2rem;">
+<div style="margin-top:2rem;">
     <a href="{% url 'professors:professor_list' %}" class="btn btn-secondary">Voltar para Lista</a>
-    <a href="/admin/professors/professor/{{ professor.pk }}/change/" class="btn btn-primary">Editar Professor</a>
 </div>
 {% endblock %}

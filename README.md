@@ -1,5 +1,5 @@
 # SEFAD
-SEFAD - Sistema de Estimativa de Força Acadêmica Docente
+SEFAD - Sistema de Estimativa de Esforço Acadêmico Docente
 
 ## Description
 System for estimating academic teaching strength built with Django and PostgreSQL.

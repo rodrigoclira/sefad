@@ -1,0 +1,25 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Excluir Entrada de Turma - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Excluir Entrada de Turma</h2>
+    <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="form-container">
+    <div class="alert alert-danger" style="margin-bottom:1.5rem;">
+        <strong>Atenção:</strong> Esta ação não pode ser desfeita.
+    </div>
+
+    <p>Tem certeza que deseja excluir a entrada de turma <strong>{{ object }}</strong>?</p>
+    <p>Esta entrada não contribuirá mais para nenhuma projeção.</p>
+
+    <form method="post" style="margin-top:1.5rem;display:flex;gap:0.75rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

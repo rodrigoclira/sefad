@@ -1,17 +1,24 @@
 from django.contrib import admin
-from .models import Course, Discipline
+from .models import Course, Discipline, CourseElectiveSlot
+
+
+class CourseElectiveSlotInline(admin.TabularInline):
+    model = CourseElectiveSlot
+    extra = 1
+    fields = ["period", "count", "credits", "ch_relogio"]
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     """Admin interface for Course model."""
 
-    list_display = ["name", "grade_year", "calendar_type", "created_at", "updated_at"]
+    list_display = ["name", "short_name", "grade_year", "calendar_type", "created_at", "updated_at"]
     list_filter = ["calendar_type", "grade_year", "created_at"]
     search_fields = ["name", "description", "grade_year"]
     readonly_fields = ["created_at", "updated_at"]
+    inlines = [CourseElectiveSlotInline]
     fieldsets = (
-        ("Basic Information", {"fields": ("name", "grade_year", "calendar_type")}),
+        ("Basic Information", {"fields": ("name", "short_name", "grade_year", "calendar_type")}),
         ("Description", {"fields": ("description",)}),
         (
             "Timestamps",

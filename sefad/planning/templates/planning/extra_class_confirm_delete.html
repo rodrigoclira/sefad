@@ -1,0 +1,24 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Remover Disciplina Extra - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Remover Disciplina Extra</h2>
+    <a href="{% url 'planning:extra_list' %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="form-container">
+    <div class="alert alert-danger" style="margin-bottom:1.5rem;">
+        <strong>Atenção:</strong> Esta ação não pode ser desfeita.
+    </div>
+
+    <p>Tem certeza que deseja remover a disciplina extra <strong>{{ object }}</strong>?</p>
+
+    <form method="post" style="margin-top:1.5rem;display:flex;gap:0.75rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, remover</button>
+        <a href="{% url 'planning:extra_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
