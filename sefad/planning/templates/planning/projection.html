@@ -46,6 +46,64 @@
 /* Period legend */
 .period-legend { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.25rem; }
 
+/* Tabs */
+.view-tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+.view-tab {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+.view-tab:hover { color: var(--text-primary); }
+.view-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Charts layout */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+.chart-card.full-width {
+    grid-column: 1 / -1;
+}
+.chart-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+}
+.chart-card canvas { max-height: 280px; }
+.chart-card.full-width canvas { max-height: 240px; }
+
+@media (max-width: 768px) {
+    .charts-grid { grid-template-columns: 1fr; }
+    .chart-card.full-width { grid-column: 1; }
+}
+
 /* Print styles */
 @media print {
     .top-bar, nav, .section-header .btn, .filter-form, .no-print { display:none !important; }
@@ -62,6 +120,8 @@
     .entry-chip { border:1px solid #999; background:#f5f5f5 !important; }
     a { text-decoration:none; color:inherit; }
     .print-header { display:block !important; }
+    .view-tabs, .charts-panel { display:none !important; }
+    .table-panel { display:block !important; }
 }
 
 /* Course abbreviation badge */
@@ -134,6 +194,37 @@
     <p>Nenhum dado encontrado para os filtros selecionados.</p>
 </div>
 {% else %}
+
+{# View tabs #}
+<div class="view-tabs no-print">
+    <button class="view-tab active" id="tab-table" onclick="switchTab('table')">Tabela</button>
+    <button class="view-tab" id="tab-charts" onclick="switchTab('charts')">Gráficos</button>
+</div>
+
+{# ── CHARTS PANEL ── #}
+<div id="panel-charts" class="charts-panel" style="display:none;">
+    <div class="charts-grid">
+        <div class="chart-card full-width">
+            <h4>Carga Horária por Semestre (h)</h4>
+            <canvas id="chartCH"></canvas>
+        </div>
+        <div class="chart-card full-width">
+            <h4>Turmas por Semestre</h4>
+            <canvas id="chartClasses"></canvas>
+        </div>
+        <div class="chart-card full-width">
+            <h4>Créditos por Semestre</h4>
+            <canvas id="chartCredits"></canvas>
+        </div>
+        <div class="chart-card full-width">
+            <h4>Entradas de Turma Ativas por Semestre</h4>
+            <canvas id="chartActiveEntries"></canvas>
+        </div>
+    </div>
+</div>
+
+{# ── TABLE PANEL ── #}
+<div id="panel-table" class="table-panel">
 
 {# Period color legend #}
 <div class="period-legend">
@@ -265,5 +356,181 @@
 </div>
 {% endfor %}
 
+</div>{# end table-panel #}
+
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if projection %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const DATA = {{ chart_data|safe }};
+
+/* ── Helpers ── */
+const PERIOD_COLORS = [
+    '#3b82f6','#22c55e','#eab308','#f43f5e','#a855f7',
+    '#f97316','#06b6d4','#ec4899','#10b981','#6366f1',
+];
+function periodColor(i) { return PERIOD_COLORS[i % PERIOD_COLORS.length]; }
+
+const AREA_PALETTE = [
+    '#2563eb','#16a34a','#dc2626','#9333ea','#ea580c',
+    '#0891b2','#be185d','#65a30d','#b45309','#0369a1',
+];
+
+const chartDefaults = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12 }, boxWidth: 14, padding: 16 } },
+        tooltip: { mode: 'index', intersect: false },
+    },
+};
+
+/* ── 1. CH por semestre ── */
+new Chart(document.getElementById('chartCH'), {
+    type: 'bar',
+    data: {
+        labels: DATA.semesters,
+        datasets: [{
+            label: 'Carga Horária (h)',
+            data: DATA.ch,
+            backgroundColor: 'rgba(37,99,235,0.18)',
+            borderColor: '#2563eb',
+            borderWidth: 2,
+            borderRadius: 6,
+            type: 'bar',
+        }, {
+            label: 'Tendência',
+            data: DATA.ch,
+            type: 'line',
+            borderColor: '#2563eb',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 4,
+            pointBackgroundColor: '#2563eb',
+            tension: 0.35,
+            yAxisID: 'y',
+        }],
+    },
+    options: {
+        ...chartDefaults,
+        scales: {
+            y: { beginAtZero: true, ticks: { font: { size: 11 } }, title: { display: true, text: 'CH (h)' } },
+            x: { ticks: { font: { size: 11 } } },
+        },
+        plugins: { ...chartDefaults.plugins, tooltip: { mode: 'index', intersect: false } },
+    },
+});
+
+/* ── 2. Turmas por semestre (stacked: regular + extra) ── */
+new Chart(document.getElementById('chartClasses'), {
+    type: 'bar',
+    data: {
+        labels: DATA.semesters,
+        datasets: [{
+            label: 'Regulares',
+            data: DATA.regular,
+            backgroundColor: 'rgba(22,163,74,0.75)',
+            borderRadius: 4,
+            stack: 'turmas',
+        }, {
+            label: 'Extras',
+            data: DATA.extra,
+            backgroundColor: 'rgba(37,99,235,0.75)',
+            borderRadius: 4,
+            stack: 'turmas',
+        }],
+    },
+    options: {
+        ...chartDefaults,
+        scales: {
+            y: { beginAtZero: true, stacked: true, ticks: { font: { size: 11 } }, title: { display: true, text: 'Turmas' } },
+            x: { stacked: true, ticks: { font: { size: 11 } } },
+        },
+    },
+});
+
+/* ── 3. Créditos por semestre ── */
+new Chart(document.getElementById('chartCredits'), {
+    type: 'bar',
+    data: {
+        labels: DATA.semesters,
+        datasets: [{
+            label: 'Créditos',
+            data: DATA.credits,
+            backgroundColor: 'rgba(147,51,234,0.18)',
+            borderColor: '#9333ea',
+            borderWidth: 2,
+            borderRadius: 6,
+            type: 'bar',
+        }, {
+            label: 'Tendência',
+            data: DATA.credits,
+            type: 'line',
+            borderColor: '#9333ea',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            pointRadius: 4,
+            pointBackgroundColor: '#9333ea',
+            tension: 0.35,
+            yAxisID: 'y',
+        }],
+    },
+    options: {
+        ...chartDefaults,
+        scales: {
+            y: { beginAtZero: true, ticks: { font: { size: 11 } }, title: { display: true, text: 'Créditos' } },
+            x: { ticks: { font: { size: 11 } } },
+        },
+        plugins: { ...chartDefaults.plugins, tooltip: { mode: 'index', intersect: false } },
+    },
+});
+
+/* ── 5. Entradas de turma ativas por semestre — uma linha por curso ── */
+const COURSE_PALETTE = [
+    '#ea580c','#2563eb','#16a34a','#9333ea','#0891b2',
+    '#be185d','#65a30d','#b45309','#0369a1','#dc2626',
+];
+new Chart(document.getElementById('chartActiveEntries'), {
+    type: 'line',
+    data: {
+        labels: DATA.semesters,
+        datasets: DATA.active_entries_by_course.map((course, i) => ({
+            label: course.name,
+            data: course.counts,
+            borderColor: COURSE_PALETTE[i % COURSE_PALETTE.length],
+            backgroundColor: COURSE_PALETTE[i % COURSE_PALETTE.length] + '22',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointBackgroundColor: COURSE_PALETTE[i % COURSE_PALETTE.length],
+            tension: 0.35,
+            fill: false,
+        })),
+    },
+    options: {
+        ...chartDefaults,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { font: { size: 11 }, stepSize: 1, precision: 0 },
+                title: { display: true, text: 'Entradas de turma' },
+            },
+            x: { ticks: { font: { size: 11 } } },
+        },
+        plugins: { ...chartDefaults.plugins, tooltip: { mode: 'index', intersect: false } },
+    },
+});
+
+
+/* ── Tab switcher ── */
+function switchTab(tab) {
+    document.getElementById('panel-table').style.display  = tab === 'table'  ? '' : 'none';
+    document.getElementById('panel-charts').style.display = tab === 'charts' ? '' : 'none';
+    document.getElementById('tab-table').classList.toggle('active',  tab === 'table');
+    document.getElementById('tab-charts').classList.toggle('active', tab === 'charts');
+}
+</script>
 {% endif %}
 {% endblock %}

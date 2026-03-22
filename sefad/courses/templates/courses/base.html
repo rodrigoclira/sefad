@@ -1463,7 +1463,6 @@
                     <a href="{% url 'courses:course_list' %}" class="btn btn-secondary">Cursos</a>
                     <a href="{% url 'courses:discipline_list' %}" class="btn btn-secondary">Disciplinas</a>
                     <a href="{% url 'professors:professor_list' %}" class="btn btn-secondary">Professores</a>
-                    <a href="{% url 'planning:plan_list' %}" class="btn btn-secondary">Planejamentos</a>
                     <a href="{% url 'planning:entry_list' %}" class="btn btn-secondary">Turmas</a>
                     <a href="{% url 'planning:projection' %}" class="btn btn-secondary">Projeção</a>
                     <a href="/admin/" class="btn btn-primary">Admin</a>
@@ -1477,5 +1476,6 @@
             {% endblock %}
         </div>
     </div>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

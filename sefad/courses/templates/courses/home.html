@@ -1,0 +1,163 @@
+{% extends "courses/base.html" %}
+
+{% block title %}SEEAD — Início{% endblock %}
+
+{% block extra_css %}
+<style>
+    .home-hero {
+        text-align: center;
+        padding: 3rem 1rem 2rem;
+    }
+
+    .home-hero h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .home-hero p {
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+        max-width: 520px;
+        margin: 0 auto 2.5rem;
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card .stat-number {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .nav-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .nav-card {
+        background: var(--surface);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.75rem 1.5rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+        text-decoration: none;
+        color: var(--text-primary);
+    }
+
+    .nav-card-icon {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .nav-card h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .nav-card p {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 640px) {
+        .home-hero h2 { font-size: 1.5rem; }
+        .nav-cards { grid-template-columns: 1fr 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="home-hero">
+    <h2>Sistema de Estimativa de Esforço Acadêmico Docente</h2>
+    <p>Gerencie cursos, disciplinas, professores e visualize a projeção de carga horária docente.</p>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-number">{{ courses_count }}</div>
+        <div class="stat-label">Cursos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ disciplines_count }}</div>
+        <div class="stat-label">Disciplinas</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ professors_count }}</div>
+        <div class="stat-label">Professores</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ entries_count }}</div>
+        <div class="stat-label">Turmas ativas</div>
+    </div>
+</div>
+
+<div class="nav-cards">
+    <a href="{% url 'courses:course_list' %}" class="nav-card">
+        <div class="nav-card-icon">🎓</div>
+        <h3>Cursos</h3>
+        <p>Visualize e gerencie os cursos cadastrados.</p>
+    </a>
+    <a href="{% url 'courses:discipline_list' %}" class="nav-card">
+        <div class="nav-card-icon">📚</div>
+        <h3>Disciplinas</h3>
+        <p>Consulte o catálogo de disciplinas por curso e período.</p>
+    </a>
+    <a href="{% url 'professors:professor_list' %}" class="nav-card">
+        <div class="nav-card-icon">👩‍🏫</div>
+        <h3>Professores</h3>
+        <p>Gerencie o corpo docente e suas áreas de atuação.</p>
+    </a>
+    <a href="{% url 'planning:entry_list' %}" class="nav-card">
+        <div class="nav-card-icon">📋</div>
+        <h3>Turmas</h3>
+        <p>Controle as turmas ativas por semestre e curso.</p>
+    </a>
+    <a href="{% url 'planning:projection' %}" class="nav-card">
+        <div class="nav-card-icon">📊</div>
+        <h3>Projeção</h3>
+        <p>Visualize a projeção de carga horária docente por semestre.</p>
+    </a>
+</div>
+{% endblock %}

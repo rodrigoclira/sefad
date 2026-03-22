@@ -1,340 +1,19 @@
-from django.shortcuts import render, redirect, get_object_or_404
+import json
+from collections import defaultdict
+from django.shortcuts import render
 from django.views.generic import (
     ListView,
-    DetailView,
     CreateView,
     UpdateView,
     DeleteView,
 )
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.db.models import Sum
 from django.http import JsonResponse
-from .models import SemesterPlan, PlanDiscipline, ClassEntry, ExtraClass
-from .forms import CreatePlanForm, AddDisciplineForm, UpdateItemForm, ClassEntryForm, ExtraClassForm, ProjectionFilterForm
+from .models import ClassEntry, ExtraClass
+from .forms import ClassEntryForm, ExtraClassForm, ProjectionFilterForm
 from .utils import get_projection
 from courses.models import Course, Discipline
-
-
-class PlanListView(ListView):
-    """List all semester plans."""
-
-    model = SemesterPlan
-    template_name = "planning/plan_list.html"
-    context_object_name = "plans"
-    paginate_by = 20
-
-
-class PlanDetailView(DetailView):
-    """Display details of a semester plan with summary."""
-
-    model = SemesterPlan
-    template_name = "planning/plan_detail.html"
-    context_object_name = "plan"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        plan = self.object
-        context["plan_items"] = plan.plan_items.select_related("discipline").all()
-        context["total_credits"] = plan.get_total_credits()
-        context["total_ch_relogio"] = plan.get_total_ch_relogio()
-        context["disciplines_count"] = plan.get_disciplines_count()
-        context["unique_disciplines_count"] = plan.get_unique_disciplines_count()
-
-        # Get available periods from the course
-        periods = (
-            Discipline.objects.filter(course=plan.course)
-            .values_list("period", flat=True)
-            .distinct()
-            .order_by("period")
-        )
-        context["available_periods"] = list(periods)
-
-        return context
-
-
-class PlanCreateView(CreateView):
-    """Create a new semester plan."""
-
-    model = SemesterPlan
-    template_name = "planning/plan_form.html"
-    form_class = CreatePlanForm
-    success_url = reverse_lazy("planning:plan_list")
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, f'Plano "{form.instance.name}" criado com sucesso!'
-        )
-        return super().form_valid(form)
-
-
-class PlanUpdateView(UpdateView):
-    """Update an existing semester plan."""
-
-    model = SemesterPlan
-    template_name = "planning/plan_form.html"
-    form_class = CreatePlanForm
-
-    def get_success_url(self):
-        return reverse_lazy("planning:plan_detail", kwargs={"pk": self.object.pk})
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, f'Plano "{form.instance.name}" atualizado com sucesso!'
-        )
-        return super().form_valid(form)
-
-
-class PlanDeleteView(DeleteView):
-    """Delete a semester plan."""
-
-    model = SemesterPlan
-    template_name = "planning/plan_confirm_delete.html"
-    success_url = reverse_lazy("planning:plan_list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["disciplines_count"] = self.object.get_disciplines_count()
-        return context
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, f'Plano "{self.object.name}" excluído com sucesso!'
-        )
-        return super().form_valid(form)
-
-
-def add_discipline_to_plan(request, plan_pk):
-    """Add a single discipline to a plan."""
-    plan = get_object_or_404(SemesterPlan, pk=plan_pk)
-
-    if request.method == "POST":
-        form = AddDisciplineForm(request.POST, plan=plan)
-        if form.is_valid():
-            discipline = form.cleaned_data["discipline"]
-            classes_count = form.cleaned_data["classes_count"]
-            assigned_period = form.cleaned_data.get("assigned_period", "")
-            notes = form.cleaned_data["notes"]
-
-            # Validate: if discipline is elective (period 0), assigned_period is required
-            if discipline.period == "0" and not assigned_period:
-                messages.error(
-                    request,
-                    "Para disciplinas optativas, você deve escolher o período de oferta!",
-                )
-                return render(
-                    request,
-                    "planning/add_discipline.html",
-                    {"plan": plan, "form": form},
-                )
-
-            plan_item, created = PlanDiscipline.objects.get_or_create(
-                plan=plan,
-                discipline=discipline,
-                defaults={
-                    "classes_count": classes_count,
-                    "assigned_period": assigned_period,
-                    "notes": notes,
-                },
-            )
-
-            if created:
-                messages.success(
-                    request, f'Disciplina "{discipline.name}" adicionada com sucesso!'
-                )
-            else:
-                plan_item.classes_count = classes_count
-                plan_item.assigned_period = assigned_period
-                plan_item.notes = notes
-                plan_item.save()
-                messages.info(request, f'Disciplina "{discipline.name}" atualizada!')
-
-            return redirect("planning:plan_detail", pk=plan_pk)
-    else:
-        form = AddDisciplineForm(plan=plan)
-
-    # Get disciplines organized by period for reference
-    # Exclude period 0 (electives)
-    disciplines = (
-        Discipline.objects.filter(course=plan.course)
-        .exclude(period="0")
-        .order_by("period", "name")
-    )
-    periods = disciplines.values_list("period", flat=True).distinct().order_by("period")
-
-    context = {
-        "plan": plan,
-        "form": form,
-        "disciplines": disciplines,
-        "periods": list(periods),
-    }
-    return render(request, "planning/add_discipline.html", context)
-
-
-def add_all_periods_to_plan(request, plan_pk):
-    """Add all disciplines from all periods to a plan."""
-    plan = get_object_or_404(SemesterPlan, pk=plan_pk)
-
-    if request.method == "POST":
-        classes_count = int(request.POST.get("classes_count", 1))
-
-        # Exclude period 0 (electives) - they should be added manually
-        disciplines = Discipline.objects.filter(course=plan.course).exclude(period="0")
-
-        added_count = 0
-        skipped_count = 0
-
-        for discipline in disciplines:
-            _, created = PlanDiscipline.objects.get_or_create(
-                plan=plan,
-                discipline=discipline,
-                defaults={"classes_count": classes_count},
-            )
-            if created:
-                added_count += 1
-            else:
-                skipped_count += 1
-
-        if added_count > 0:
-            messages.success(
-                request,
-                f"{added_count} disciplina(s) adicionada(s) de todos os períodos!",
-            )
-        if skipped_count > 0:
-            messages.info(
-                request, f"{skipped_count} disciplina(s) já existiam no plano."
-            )
-
-        return redirect("planning:plan_detail", pk=plan_pk)
-
-    # GET request - show all disciplines organized by period
-    # Exclude period 0 (electives)
-    disciplines = (
-        Discipline.objects.filter(course=plan.course)
-        .exclude(period="0")
-        .order_by("period", "name")
-    )
-    periods = disciplines.values_list("period", flat=True).distinct().order_by("period")
-
-    # Organize disciplines by period
-    disciplines_by_period = {}
-    total_disciplines = 0
-    for period in periods:
-        period_disciplines = disciplines.filter(period=period)
-        disciplines_by_period[period] = [
-            {"name": d.name, "credits": d.credits, "period": d.period}
-            for d in period_disciplines
-        ]
-        total_disciplines += len(period_disciplines)
-
-    import json
-
-    context = {
-        "plan": plan,
-        "disciplines_by_period": disciplines_by_period,
-        "total_disciplines": total_disciplines,
-    }
-    return render(request, "planning/add_all_periods.html", context)
-
-
-def add_period_to_plan(request, plan_pk):
-    """Add all disciplines from a period to a plan."""
-    plan = get_object_or_404(SemesterPlan, pk=plan_pk)
-
-    if request.method == "POST":
-        period = request.POST.get("period")
-        classes_count = int(request.POST.get("classes_count", 1))
-
-        disciplines = Discipline.objects.filter(course=plan.course, period=period)
-
-        added_count = 0
-        skipped_count = 0
-
-        for discipline in disciplines:
-            _, created = PlanDiscipline.objects.get_or_create(
-                plan=plan,
-                discipline=discipline,
-                defaults={"classes_count": classes_count},
-            )
-            if created:
-                added_count += 1
-            else:
-                skipped_count += 1
-
-        if added_count > 0:
-            messages.success(
-                request,
-                f"{added_count} disciplina(s) adicionada(s) do período {period}!",
-            )
-        if skipped_count > 0:
-            messages.info(
-                request, f"{skipped_count} disciplina(s) já existiam no plano."
-            )
-
-        return redirect("planning:plan_detail", pk=plan_pk)
-
-    # GET request - show period selection with disciplines preview
-    # Exclude period 0 (electives)
-    disciplines = (
-        Discipline.objects.filter(course=plan.course)
-        .exclude(period="0")
-        .order_by("period", "name")
-    )
-    periods = disciplines.values_list("period", flat=True).distinct().order_by("period")
-
-    # Organize disciplines by period
-    disciplines_by_period = {}
-    for period in periods:
-        period_disciplines = disciplines.filter(period=period)
-        disciplines_by_period[period] = [
-            {"name": d.name, "credits": d.credits, "period": d.period}
-            for d in period_disciplines
-        ]
-
-    import json
-
-    context = {
-        "plan": plan,
-        "available_periods": list(periods),
-        "disciplines_by_period": disciplines_by_period,
-    }
-    return render(request, "planning/add_period.html", context)
-
-
-def remove_discipline_from_plan(request, plan_pk, item_pk):
-    """Remove a discipline from a plan."""
-    plan = get_object_or_404(SemesterPlan, pk=plan_pk)
-    item = get_object_or_404(PlanDiscipline, pk=item_pk, plan=plan)
-
-    discipline_name = item.discipline.name
-    item.delete()
-
-    messages.success(request, f'Disciplina "{discipline_name}" removida do plano!')
-    return redirect("planning:plan_detail", pk=plan_pk)
-
-
-def update_plan_item(request, plan_pk, item_pk):
-    """Update a plan item (classes count and notes)."""
-    plan = get_object_or_404(SemesterPlan, pk=plan_pk)
-    item = get_object_or_404(PlanDiscipline, pk=item_pk, plan=plan)
-
-    if request.method == "POST":
-        form = UpdateItemForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request, f'Disciplina "{item.discipline.name}" atualizada!'
-            )
-            return redirect("planning:plan_detail", pk=plan_pk)
-    else:
-        form = UpdateItemForm(instance=item)
-
-    context = {
-        "plan": plan,
-        "item": item,
-        "form": form,
-    }
-    return render(request, "planning/update_item.html", context)
 
 
 # ---------------------------------------------------------------------------
@@ -502,6 +181,75 @@ def projection_view(request):
         for e in sem_data["entries"]
     }, key=lambda p: int(p) if p.isdigit() else 0)
 
+    # --- Chart data ---
+    chart_semesters = list(projection.keys())
+    chart_ch = [data["total_ch"] for data in projection.values()]
+    chart_credits = [data["total_credits"] for data in projection.values()]
+    chart_classes = [data["total_classes"] for data in projection.values()]
+    chart_regular = [
+        sum(e["regular_count"] for e in data["entries"]) +
+        sum(s["count"] for s in data["elective_slots"])
+        for data in projection.values()
+    ]
+    chart_extra = [
+        sum(e["extra_count"] for e in data["entries"])
+        for data in projection.values()
+    ]
+
+    area_ch_map = defaultdict(int)
+    period_ch_map = defaultdict(int)
+    for data in projection.values():
+        for entry in data["entries"]:
+            area = entry["discipline"].main_area or "Sem área"
+            area_ch_map[area] += entry["ch_total"]
+            period_ch_map[entry["discipline"].period] += entry["ch_total"]
+        for slot in data["elective_slots"]:
+            period_ch_map[slot["period"]] += slot["ch_total"]
+
+    sorted_periods = sorted(period_ch_map.keys(), key=lambda p: int(p) if p.isdigit() else 0)
+
+    # Collect all courses present in the projection
+    courses_in_proj = {}  # pk -> short_name or name
+    for data in projection.values():
+        for entry in data["entries"]:
+            for src in entry["source_entries"]:
+                courses_in_proj[src.course.pk] = src.course.short_name or src.course.name
+        for slot in data["elective_slots"]:
+            for src in slot["source_entries"]:
+                courses_in_proj[src.course.pk] = src.course.short_name or src.course.name
+
+    # Per semester, count unique ClassEntry PKs grouped by course
+    active_entries_per_sem = []
+    active_by_course = {pk: [] for pk in courses_in_proj}
+    for data in projection.values():
+        sem_course_entries = defaultdict(set)
+        for entry in data["entries"]:
+            for src in entry["source_entries"]:
+                sem_course_entries[src.course.pk].add(src.pk)
+        for slot in data["elective_slots"]:
+            for src in slot["source_entries"]:
+                sem_course_entries[src.course.pk].add(src.pk)
+        total = sum(len(v) for v in sem_course_entries.values())
+        active_entries_per_sem.append(total)
+        for pk in courses_in_proj:
+            active_by_course[pk].append(len(sem_course_entries.get(pk, set())))
+
+    chart_data = json.dumps({
+        "semesters": chart_semesters,
+        "ch": chart_ch,
+        "credits": chart_credits,
+        "classes": chart_classes,
+        "regular": chart_regular,
+        "extra": chart_extra,
+        "active_entries": active_entries_per_sem,
+        "active_entries_by_course": [
+            {"name": courses_in_proj[pk], "counts": counts}
+            for pk, counts in active_by_course.items()
+        ],
+        "period_labels": [f"{p}º Período" for p in sorted_periods],
+        "period_ch": [period_ch_map[p] for p in sorted_periods],
+    })
+
     context = {
         "form": form,
         "projection": projection,
@@ -510,5 +258,6 @@ def projection_view(request):
         "grand_total_classes": grand_total_classes,
         "has_entries": ClassEntry.objects.filter(is_active=True).exists(),
         "periods_in_use": periods_in_use,
+        "chart_data": chart_data,
     }
     return render(request, "planning/projection.html", context)

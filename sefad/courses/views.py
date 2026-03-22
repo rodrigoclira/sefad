@@ -3,6 +3,18 @@ from django.views.generic import ListView, DetailView
 from .models import Course, Discipline
 
 
+def home_view(request):
+    from planning.models import ClassEntry
+    from professors.models import Professor
+    context = {
+        "courses_count": Course.objects.count(),
+        "disciplines_count": Discipline.objects.count(),
+        "professors_count": Professor.objects.count(),
+        "entries_count": ClassEntry.objects.filter(is_active=True).count(),
+    }
+    return render(request, "courses/home.html", context)
+
+
 class CourseListView(ListView):
     """List all courses."""
     model = Course
