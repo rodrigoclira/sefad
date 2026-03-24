@@ -57,6 +57,12 @@
     opacity: 0.85;
 }
 
+.professor-card.inactive {
+    border-left-color: #94a3b8;
+    background: var(--background);
+    opacity: 0.65;
+}
+
 .professor-avatar {
     flex-shrink: 0;
     width: 52px;
@@ -243,7 +249,7 @@
 <div id="view-cards">
     <div class="professors-grid">
         {% for professor in professors %}
-        <div class="professor-card{% if professor.is_on_leave %} on-leave{% endif %}">
+        <div class="professor-card{% if not professor.is_active %} inactive{% elif professor.is_on_leave %} on-leave{% endif %}">
             <div class="professor-avatar">
                 <span class="avatar-initial">{{ professor.name.0|upper }}</span>
             </div>
@@ -258,7 +264,9 @@
                     {% if professor.contract_type %}
                     <span class="badge-contract">{{ professor.get_contract_type_display }}</span>
                     {% endif %}
-                    {% if professor.is_on_leave %}
+                    {% if not professor.is_active %}
+                    <span class="badge-leave" style="background:#e2e8f0;color:#475569;border-color:#cbd5e1;">Inativo</span>
+                    {% elif professor.is_on_leave %}
                     <span class="badge-leave">Afastado</span>
                     {% endif %}
                 </div>

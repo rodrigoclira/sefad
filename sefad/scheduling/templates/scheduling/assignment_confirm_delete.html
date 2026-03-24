@@ -1,0 +1,22 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Remover Atribuição - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Remover Atribuição</h2>
+    <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="content-box" style="max-width:560px;">
+    <p>
+        Tem certeza que deseja remover o professor <strong>{{ object.professor.name }}</strong>
+        da disciplina <strong>{{ object.scheduled_class }}</strong>?
+    </p>
+    <form method="post" style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar Remoção</button>
+        <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

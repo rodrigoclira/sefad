@@ -1,0 +1,118 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Importar Disciplinas - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Importar Disciplinas de um Curso</h2>
+    <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<p style="color:var(--text-secondary);margin-bottom:1rem;">
+    Grade: <strong>{{ schedule.name }}</strong> ({{ schedule.semester }})
+</p>
+
+<div class="content-box" style="max-width:560px;margin-bottom:1rem;padding:0.75rem 1rem;border-left:3px solid var(--warning-color);">
+    <p style="margin:0;font-size:0.875rem;color:var(--text-secondary);">
+        As disciplinas do curso selecionado serão adicionadas como turmas nesta grade. O número de aulas semanais de cada disciplina será preenchido automaticamente com o valor dos seus créditos. Os professores poderão ser atribuídos posteriormente.
+    </p>
+</div>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">{{ form.course.label }}</label>
+            {{ form.course }}
+            {% if form.course.errors %}<p class="form-error">{{ form.course.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group" id="periods-section" style="display:none;">
+            <label class="form-label">Períodos</label>
+            <div style="margin-bottom:0.5rem;">
+                <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.875rem;cursor:pointer;font-weight:600;">
+                    <input type="checkbox" id="select-all-periods" checked>
+                    Todos os períodos
+                </label>
+            </div>
+            <div id="periods-list" style="display:flex;flex-wrap:wrap;gap:0.5rem 1.25rem;padding:0.75rem;background:var(--background);border:1px solid var(--border-color);border-radius:6px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.turno.label }}</label>
+            {{ form.turno }}
+            {% if form.turno.errors %}<p class="form-error">{{ form.turno.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+            {{ form.skip_existing }}
+            <label style="font-size:0.875rem;cursor:pointer;">{{ form.skip_existing.label }}</label>
+            {% if form.skip_existing.errors %}<p class="form-error">{{ form.skip_existing.errors }}</p>{% endif %}
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">Importar Disciplinas</button>
+            <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+{% block extra_js %}
+<script>
+const PERIOD_LABELS = {
+    '1': '1º Período', '2': '2º Período', '3': '3º Período',
+    '4': '4º Período', '5': '5º Período', '6': '6º Período',
+    '7': '7º Período', '8': '8º Período', '9': '9º Período', '10': '10º Período',
+    'year_1': '1º Ano', 'year_2': '2º Ano', 'year_3': '3º Ano',
+    'year_4': '4º Ano', 'year_5': '5º Ano',
+};
+
+const courseSelect = document.getElementById('id_course');
+const periodsSection = document.getElementById('periods-section');
+const periodsList = document.getElementById('periods-list');
+const selectAll = document.getElementById('select-all-periods');
+
+courseSelect.addEventListener('change', function () {
+    const courseId = this.value;
+    periodsList.innerHTML = '';
+    periodsSection.style.display = 'none';
+    if (!courseId) return;
+
+    fetch(`{% url 'scheduling:periods_by_course' %}?course_id=${courseId}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.periods.length) return;
+            data.periods.forEach(p => {
+                const label = document.createElement('label');
+                label.style.cssText = 'display:flex;align-items:center;gap:0.35rem;font-size:0.875rem;cursor:pointer;';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.name = 'periods';
+                cb.value = p;
+                cb.checked = true;
+                cb.classList.add('period-cb');
+                cb.addEventListener('change', syncSelectAll);
+                label.appendChild(cb);
+                label.appendChild(document.createTextNode(PERIOD_LABELS[p] || p));
+                periodsList.appendChild(label);
+            });
+            periodsSection.style.display = 'block';
+            selectAll.checked = true;
+        });
+});
+
+selectAll.addEventListener('change', function () {
+    document.querySelectorAll('.period-cb').forEach(cb => cb.checked = this.checked);
+});
+
+function syncSelectAll() {
+    const all = document.querySelectorAll('.period-cb');
+    const checked = document.querySelectorAll('.period-cb:checked');
+    selectAll.indeterminate = checked.length > 0 && checked.length < all.length;
+    selectAll.checked = checked.length === all.length;
+}
+</script>
+{% endblock %}
+{% endblock %}

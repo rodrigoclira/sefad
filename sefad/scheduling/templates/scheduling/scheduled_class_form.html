@@ -1,0 +1,97 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{% if object %}Editar Turma{% else %}Adicionar Turma{% endif %} - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>{% if object %}Editar Turma{% else %}Adicionar Turma{% endif %}</h2>
+    <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<p style="color:var(--text-secondary);margin-bottom:1rem;">
+    Grade: <strong>{{ schedule.name }}</strong> ({{ schedule.semester }})
+</p>
+
+<div class="form-container">
+    <form method="post" id="class-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">{{ form.course.label }}</label>
+            {{ form.course }}
+            {% if form.course.errors %}<p class="form-error">{{ form.course.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.discipline.label }}</label>
+            {{ form.discipline }}
+            <small class="form-help">Selecione o curso primeiro para filtrar as disciplinas.</small>
+            {% if form.discipline.errors %}<p class="form-error">{{ form.discipline.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.class_label.label }}</label>
+            {{ form.class_label }}
+            <small class="form-help">{{ form.class_label.help_text }}</small>
+            {% if form.class_label.errors %}<p class="form-error">{{ form.class_label.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.turno.label }}</label>
+            {{ form.turno }}
+            {% if form.turno.errors %}<p class="form-error">{{ form.turno.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.weekly_classes.label }}</label>
+            {{ form.weekly_classes }}
+            <small class="form-help">{{ form.weekly_classes.help_text }}</small>
+            {% if form.weekly_classes.errors %}<p class="form-error">{{ form.weekly_classes.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.notes.label }}</label>
+            {{ form.notes }}
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">{% if object %}Salvar{% else %}Adicionar Turma{% endif %}</button>
+            <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+{% block extra_js %}
+<script>
+const disciplineCredits = {};
+
+document.getElementById('id_course').addEventListener('change', function() {
+    const courseId = this.value;
+    const disciplineSelect = document.getElementById('id_discipline');
+    disciplineSelect.innerHTML = '<option value="">---------</option>';
+    document.getElementById('id_weekly_classes').value = '';
+
+    if (!courseId) return;
+
+    fetch(`{% url 'scheduling:disciplines_by_course' %}?course_id=${courseId}`)
+        .then(r => r.json())
+        .then(data => {
+            data.disciplines.forEach(d => {
+                disciplineCredits[d.id] = d.credits;
+                const opt = document.createElement('option');
+                opt.value = d.id;
+                opt.textContent = `(Período ${d.period}) ${d.name}`;
+                disciplineSelect.appendChild(opt);
+            });
+        });
+});
+
+document.getElementById('id_discipline').addEventListener('change', function() {
+    const credits = disciplineCredits[this.value];
+    if (credits !== undefined) {
+        document.getElementById('id_weekly_classes').value = credits;
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}

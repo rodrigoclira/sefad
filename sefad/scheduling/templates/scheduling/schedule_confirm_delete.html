@@ -1,0 +1,24 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Excluir Grade - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Excluir Grade Semestral</h2>
+    <a href="{% url 'scheduling:schedule_detail' object.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="content-box" style="max-width:560px;">
+    <p>Tem certeza que deseja excluir a grade <strong>{{ object.name }}</strong> ({{ object.semester }})?</p>
+    {% with count=object.scheduled_classes.count %}
+    {% if count %}
+    <p style="color:var(--danger-color);">Esta ação removerá também <strong>{{ count }} turma{% if count != 1 %}s{% endif %}</strong> e todas as atribuições de professores vinculadas.</p>
+    {% endif %}
+    {% endwith %}
+    <form method="post" style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+        <a href="{% url 'scheduling:schedule_detail' object.pk %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

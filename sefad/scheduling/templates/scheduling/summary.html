@@ -1,0 +1,297 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Resumo Docente — {{ schedule.name }} - SEFAD{% endblock %}
+
+{% block extra_css %}
+<style>
+.badge-yellow {
+    background: #ca8a04;
+    color: #fff;
+    padding: 0.2em 0.55em;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.progress-bar-track {
+    flex: 1;
+    background: var(--border-color);
+    border-radius: 4px;
+    height: 8px;
+    min-width: 60px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+.fill-ok    { background: var(--success-color); }
+.fill-below { background: #ca8a04; }
+.fill-above { background: var(--danger-color); }
+.fill-leave, .fill-unknown { background: var(--border-color); }
+.margin-pos { color: var(--success-color); font-weight: 600; }
+.margin-neg { color: var(--danger-color); font-weight: 600; }
+.margin-zero { color: var(--text-secondary); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <div>
+        <h2>Resumo Docente</h2>
+        <span style="color:var(--text-secondary);font-size:0.9rem;">{{ schedule.name }} — {{ schedule.semester }}</span>
+    </div>
+    <div style="display:flex;gap:0.75rem;">
+        <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Ver Grade</a>
+        <a href="{% url 'scheduling:schedule_list' %}" class="btn btn-secondary">Grades</a>
+    </div>
+</div>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{# Professor workload summary #}
+<div class="content-box" style="margin-bottom:2rem;">
+    <h3 style="margin:0 0 0.5rem;font-size:1rem;">Carga Horária Docente</h3>
+    <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">
+        Duração de aula: <strong>{{ class_duration }} min</strong>
+        {% if active_norm %} · Norma: <strong>{{ active_norm.name }}</strong>{% else %} · <em>Nenhuma norma ativa cadastrada</em>{% endif %}
+    </p>
+
+    {% if professor_rows %}
+
+    {# Chart #}
+    <div style="margin-bottom:1.5rem;">
+        <canvas id="workload-chart" style="max-height:320px;"></canvas>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Professor</th>
+                    <th>Regime</th>
+                    <th>Grupo</th>
+                    <th style="text-align:center;">Atribuídas</th>
+                    <th style="text-align:center;">Mín.</th>
+                    <th style="text-align:center;">Máx.</th>
+                    <th style="min-width:120px;">Aproveitamento</th>
+                    <th style="text-align:center;">Margem</th>
+                    <th>Status</th>
+                    <th>Disciplinas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in professor_rows %}
+                <tr>
+                    <td><strong>{{ row.professor.name }}</strong></td>
+                    <td>{{ row.professor.get_contract_type_display|default:"-" }}</td>
+                    <td>{{ row.professor.get_work_group_display|default:"-" }}</td>
+                    <td style="text-align:center;font-weight:600;">{{ row.total_weekly_classes }}</td>
+                    <td style="text-align:center;color:var(--text-secondary);">{{ row.min_classes|default:"-" }}</td>
+                    <td style="text-align:center;color:var(--text-secondary);">{{ row.max_classes|default:"-" }}</td>
+                    <td>
+                        {% if row.utilization_pct is not None %}
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill fill-{{ row.status }}"
+                                     style="width:{% if row.utilization_pct > 100 %}100{% else %}{{ row.utilization_pct }}{% endif %}%;"></div>
+                            </div>
+                            <span style="font-size:0.8rem;min-width:2.5rem;text-align:right;">{{ row.utilization_pct }}%</span>
+                        </div>
+                        {% else %}
+                        <span style="color:var(--text-secondary);">—</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align:center;">
+                        {% if row.margin is not None %}
+                            {% if row.margin > 0 %}
+                            <span class="margin-pos">+{{ row.margin }}</span>
+                            {% elif row.margin < 0 %}
+                            <span class="margin-neg">{{ row.margin }}</span>
+                            {% else %}
+                            <span class="margin-zero">0</span>
+                            {% endif %}
+                        {% else %}
+                        <span style="color:var(--text-secondary);">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if row.status == "ok" %}
+                        <span class="badge badge-success">Ok</span>
+                        {% elif row.status == "below" %}
+                        <span class="badge-yellow">Abaixo mín.</span>
+                        {% elif row.status == "above" %}
+                        <span class="badge badge-danger">Acima máx.</span>
+                        {% elif row.status == "leave" %}
+                        <span class="badge badge-secondary">Afastado</span>
+                        {% else %}
+                        <span style="color:var(--text-secondary);">—</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-size:0.8rem;">
+                        {% for sc in row.classes %}
+                        <div>{{ sc.discipline.name }}{% if sc.class_label %} ({{ sc.class_label }}){% endif %}{% if sc.turno %} / {{ sc.get_turno_display }}{% endif %} — {{ sc.weekly_classes }} aula{% if sc.weekly_classes != 1 %}s{% endif %}</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state" style="padding:1.5rem;">
+        <p>Nenhum professor atribuído nesta grade ainda.</p>
+        <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Atribuir Professores</a>
+    </div>
+    {% endif %}
+</div>
+
+{# Turmas ofertadas (readonly) #}
+<div class="content-box">
+    <h3 style="margin:0 0 1rem;font-size:1rem;">Turmas Ofertadas</h3>
+    {% if scheduled_classes %}
+    <div class="table-container">
+        <table class="data-table" style="font-size:0.875rem;">
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Período</th>
+                    <th>Disciplina</th>
+                    <th>Turma</th>
+                    <th>Turno</th>
+                    <th style="text-align:center;">Aulas/Sem.</th>
+                    <th>Professores</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sc in scheduled_classes %}
+                <tr>
+                    <td>{{ sc.discipline.course.short_name|default:sc.discipline.course.name }}</td>
+                    <td>{{ sc.discipline.period }}º</td>
+                    <td>{{ sc.discipline.name }}</td>
+                    <td>{{ sc.class_label|default:"-" }}</td>
+                    <td>{{ sc.get_turno_display|default:"-" }}</td>
+                    <td style="text-align:center;">{{ sc.weekly_classes }}</td>
+                    <td>
+                        {% for a in sc.assignments.all %}
+                        {{ a.professor.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                        <span style="color:var(--danger-color);font-style:italic;">Sem professor</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color:var(--text-secondary);font-style:italic;">Nenhuma turma cadastrada.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top:1rem;">
+    <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" style="color:var(--text-secondary);font-size:0.875rem;">← Voltar para a Grade</a>
+</div>
+
+{% block extra_js %}
+{% if professor_rows %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    const rows = [
+        {% for row in professor_rows %}
+        {
+            name: "{{ row.professor.name|truncatechars:25|escapejs }}",
+            assigned: {{ row.total_weekly_classes }},
+            max: {{ row.max_classes|default:"null" }},
+            min: {{ row.min_classes|default:"null" }},
+            status: "{{ row.status }}",
+        },
+        {% endfor %}
+    ];
+
+    const STATUS_COLORS = {
+        ok:      'rgba(22,163,74,0.75)',
+        below:   'rgba(202,138,4,0.75)',
+        above:   'rgba(220,38,38,0.75)',
+        leave:   'rgba(148,163,184,0.5)',
+        unknown: 'rgba(148,163,184,0.5)',
+    };
+
+    const labels = rows.map(r => r.name);
+    const assigned = rows.map(r => r.assigned);
+    const maxVals = rows.map(r => r.max);
+    const colors = rows.map(r => STATUS_COLORS[r.status] || STATUS_COLORS.unknown);
+
+    const ctx = document.getElementById('workload-chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Aulas atribuídas',
+                    data: assigned,
+                    backgroundColor: colors,
+                    borderRadius: 4,
+                    order: 2,
+                },
+                {
+                    label: 'Máximo permitido',
+                    data: maxVals,
+                    type: 'line',
+                    borderColor: 'rgba(100,116,139,0.6)',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    borderDash: [4, 4],
+                    pointStyle: 'dash',
+                    pointRadius: 0,
+                    order: 1,
+                },
+            ],
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        afterLabel: function(ctx) {
+                            const row = rows[ctx.dataIndex];
+                            if (ctx.datasetIndex === 0 && row.max !== null) {
+                                const pct = Math.round(row.assigned / row.max * 100);
+                                const margin = row.max - row.assigned;
+                                return [`Aproveitamento: ${pct}%`, `Margem: ${margin > 0 ? '+' : ''}${margin}`];
+                            }
+                            return [];
+                        }
+                    }
+                },
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Aulas por semana' },
+                    ticks: { stepSize: 1 },
+                },
+                y: { ticks: { font: { size: 12 } } },
+            },
+        },
+    });
+})();
+</script>
+{% endif %}
+{% endblock %}
+{% endblock %}

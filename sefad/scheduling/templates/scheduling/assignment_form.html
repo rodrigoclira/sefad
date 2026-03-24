@@ -1,0 +1,60 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Atribuir Professor - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Atribuir Professor</h2>
+    <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<p style="color:var(--text-secondary);margin-bottom:1rem;">
+    Grade: <strong>{{ schedule.name }}</strong> ({{ schedule.semester }})<br>
+    Disciplina: <strong>{{ scheduled_class.discipline.name }}{% if scheduled_class.class_label %} — {{ scheduled_class.class_label }}{% endif %}</strong>
+</p>
+
+{% if scheduled_class.assignments.all %}
+<div style="margin-bottom:1.25rem;padding:0.75rem 1rem;background:var(--background);border:1px solid var(--border-color);border-radius:8px;">
+    <strong style="font-size:0.85rem;">Professores já atribuídos:</strong>
+    <ul style="margin:0.4rem 0 0;padding-left:1.2rem;font-size:0.875rem;">
+        {% for a in scheduled_class.assignments.all %}
+        <li>{{ a.professor.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if top_professors %}
+<div style="margin-bottom:1.5rem;padding:1rem;background:var(--background);border:1px solid var(--border-color);border-radius:8px;">
+    <p style="margin:0 0 0.75rem;font-size:0.85rem;font-weight:600;color:var(--text-secondary);">Histórico desta disciplina em semestres anteriores</p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {% for row in top_professors %}
+        <form method="post" style="display:flex;align-items:center;gap:0.75rem;">
+            {% csrf_token %}
+            <input type="hidden" name="professor" value="{{ row.professor__pk }}">
+            <span style="flex:1;font-size:0.9rem;">{{ row.professor__name }}</span>
+            <span style="font-size:0.8rem;color:var(--text-secondary);">{{ row.count }} atribuição{{ row.count|pluralize:",ões" }}</span>
+            <button type="submit" class="btn btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.8rem;">Atribuir</button>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">{{ form.professor.label }}</label>
+            {{ form.professor }}
+            {% if form.professor.errors %}<p class="form-error">{{ form.professor.errors }}</p>{% endif %}
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">Atribuir Professor</button>
+            <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

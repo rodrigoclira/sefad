@@ -28,16 +28,16 @@ class WorkloadNormAdmin(admin.ModelAdmin):
 
 @admin.register(Professor)
 class ProfessorAdmin(admin.ModelAdmin):
-    list_display = ["name", "work_group", "contract_type", "is_on_leave", "get_limits_display", "created_at"]
-    list_filter = ["work_group", "contract_type", "is_on_leave"]
-    list_editable = ["is_on_leave"]
+    list_display = ["name", "work_group", "contract_type", "is_on_leave", "is_active", "get_limits_display", "created_at"]
+    list_filter = ["work_group", "contract_type", "is_on_leave", "is_active"]
+    list_editable = ["is_on_leave", "is_active"]
     search_fields = ["name"]
     readonly_fields = ["created_at", "updated_at"]
     list_per_page = 50
 
     fieldsets = (
         ("Identificação", {"fields": ("name",)}),
-        ("Vínculo", {"fields": ("work_group", "contract_type", "is_on_leave")}),
+        ("Vínculo", {"fields": ("work_group", "contract_type", "is_on_leave", "is_active")}),
         ("Registro", {"fields": ("created_at", "updated_at"), "classes": ("collapse",)}),
     )
 

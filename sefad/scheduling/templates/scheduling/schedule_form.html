@@ -1,0 +1,47 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{% if object %}Editar Grade{% else %}Nova Grade{% endif %} - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>{% if object %}Editar Grade Semestral{% else %}Nova Grade Semestral{% endif %}</h2>
+    <a href="{% url 'scheduling:schedule_list' %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if form.name.errors %}<p class="form-error">{{ form.name.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.semester.label }}</label>
+            {{ form.semester }}
+            <small class="form-help">{{ form.semester.help_text }}</small>
+            {% if form.semester.errors %}<p class="form-error">{{ form.semester.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.class_duration.label }}</label>
+            {{ form.class_duration }}
+            <small class="form-help">{{ form.class_duration.help_text }}</small>
+            {% if form.class_duration.errors %}<p class="form-error">{{ form.class_duration.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}<p class="form-error">{{ form.description.errors }}</p>{% endif %}
+        </div>
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">{% if object %}Salvar Alterações{% else %}Criar Grade{% endif %}</button>
+            <a href="{% url 'scheduling:schedule_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

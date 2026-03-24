@@ -169,6 +169,11 @@ class Professor(models.Model):
         verbose_name="Afastado",
         help_text="Professor afastado não entra no cômputo da soma total de esforço",
     )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Disponível para distribuição",
+        help_text="Desmarque para professores que saíram do curso. O histórico de aulas é preservado.",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

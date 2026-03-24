@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "courses",
     "professors",
     "planning",
+    "scheduling",
 ]
 
 MIDDLEWARE = [

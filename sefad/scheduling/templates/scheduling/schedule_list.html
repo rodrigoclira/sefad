@@ -1,0 +1,75 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Grades Semestrais - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Grades Semestrais</h2>
+    <a href="{% url 'scheduling:schedule_create' %}" class="btn btn-primary">+ Nova Grade</a>
+</div>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="get" style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:flex-end;margin-bottom:1.25rem;padding:1rem;background:var(--background);border:1px solid var(--border-color);border-radius:8px;">
+    <div class="form-group" style="margin:0;width:130px;">
+        <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.25rem;">Semestre</label>
+        <input type="text" name="semester" value="{{ filter_semester }}" placeholder="2025.1"
+               style="padding:0.4rem 0.6rem;border:1px solid var(--border-color);border-radius:6px;font-size:0.875rem;width:100%;">
+    </div>
+    <button type="submit" class="btn btn-primary" style="padding:0.45rem 1rem;font-size:0.875rem;">Filtrar</button>
+    {% if filter_semester %}
+    <a href="{% url 'scheduling:schedule_list' %}" class="btn btn-secondary" style="padding:0.45rem 1rem;font-size:0.875rem;">Limpar</a>
+    {% endif %}
+</form>
+
+{% if schedules %}
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Semestre</th>
+                <th>Tempo de Aula</th>
+                <th>Turmas</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td><strong>{{ schedule.name }}</strong></td>
+                <td><span class="semester-badge">{{ schedule.semester }}</span></td>
+                <td>{{ schedule.get_class_duration_display }}</td>
+                <td>{{ schedule.scheduled_classes.count }}</td>
+                <td>
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                        <a href="{% url 'scheduling:schedule_detail' schedule.pk %}" class="btn-icon">Detalhe</a>
+                        <a href="{% url 'scheduling:schedule_summary' schedule.pk %}" class="btn-icon">Resumo</a>
+                        <a href="{% url 'scheduling:schedule_copy' schedule.pk %}" class="btn-icon">Copiar</a>
+                        <a href="{% url 'scheduling:schedule_edit' schedule.pk %}" class="btn-icon">Editar</a>
+                        <a href="{% url 'scheduling:schedule_delete' schedule.pk %}" class="btn-icon btn-icon-danger">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    {% if filter_semester %}
+    <p>Nenhuma grade encontrada para o semestre "{{ filter_semester }}".</p>
+    <a href="{% url 'scheduling:schedule_list' %}" class="btn btn-secondary">Limpar Filtro</a>
+    {% else %}
+    <p>Nenhuma grade semestral cadastrada.</p>
+    <a href="{% url 'scheduling:schedule_create' %}" class="btn btn-primary">Criar Primeira Grade</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

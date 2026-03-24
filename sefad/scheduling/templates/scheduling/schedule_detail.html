@@ -1,0 +1,185 @@
+{% extends "courses/base.html" %}
+
+{% block title %}{{ schedule.name }} - SEFAD{% endblock %}
+
+{% block extra_css %}
+<style>
+.bulk-bar {
+    display: none;
+    position: sticky;
+    bottom: 1rem;
+    z-index: 100;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-top: 1rem;
+}
+.bulk-bar.visible { display: flex; }
+.bulk-bar span { font-size: 0.875rem; font-weight: 600; flex: 1; }
+.bulk-bar button {
+    background: #fff;
+    color: var(--danger-color);
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.bulk-bar button:hover { background: #fee2e2; }
+.cb-col { width: 2rem; text-align: center; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <div>
+        <h2>{{ schedule.name }}</h2>
+        <span class="semester-badge" style="font-size:0.85rem;">{{ schedule.semester }}</span>
+        <span class="badge badge-secondary" style="margin-left:0.4rem;">{{ schedule.get_class_duration_display }}</span>
+    </div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <a href="{% url 'scheduling:schedule_summary' schedule.pk %}" class="btn btn-secondary">Resumo Docente</a>
+        <a href="{% url 'scheduling:class_create' schedule.pk %}" class="btn btn-secondary">+ Adicionar Turma</a>
+        <a href="{% url 'scheduling:bulk_import' schedule.pk %}" class="btn btn-secondary">Importar Disciplinas</a>
+        <a href="{% url 'scheduling:schedule_copy' schedule.pk %}" class="btn btn-secondary">Copiar Grade</a>
+        <a href="{% url 'scheduling:schedule_edit' schedule.pk %}" class="btn btn-secondary">Editar</a>
+        <a href="{% url 'scheduling:schedule_delete' schedule.pk %}" class="btn btn-danger">Excluir</a>
+    </div>
+</div>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if schedule.description %}
+<p style="color:var(--text-secondary);margin-bottom:1.25rem;">{{ schedule.description }}</p>
+{% endif %}
+
+{% if grouped_list %}
+<form method="post" action="{% url 'scheduling:bulk_delete' schedule.pk %}" id="bulk-form">
+    {% csrf_token %}
+
+    {% for group in grouped_list %}
+    <div class="content-box" style="margin-bottom:1.5rem;">
+        <h3 style="margin:0 0 1rem;font-size:1rem;color:var(--primary-color);border-bottom:1px solid var(--border-color);padding-bottom:0.5rem;">
+            {{ group.course_name }}
+        </h3>
+        {% for period_group in group.periods %}
+        <div style="margin-bottom:1rem;">
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">
+                Período {{ period_group.period }}
+            </div>
+            <div class="table-container" style="margin:0;">
+                <table class="data-table" style="font-size:0.875rem;">
+                    <thead>
+                        <tr>
+                            <th class="cb-col"><input type="checkbox" class="select-all-table" title="Selecionar todos neste período"></th>
+                            <th>Disciplina</th>
+                            <th>Turma</th>
+                            <th>Turno</th>
+                            <th style="text-align:center;">Aulas/Sem.</th>
+                            <th>Professores</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sc in period_group.classes %}
+                        <tr>
+                            <td class="cb-col"><input type="checkbox" name="selected_ids" value="{{ sc.pk }}" class="row-cb"></td>
+                            <td>{{ sc.discipline.name }}</td>
+                            <td>{{ sc.class_label|default:"-" }}</td>
+                            <td>{{ sc.get_turno_display|default:"-" }}</td>
+                            <td style="text-align:center;">{{ sc.weekly_classes }}</td>
+                            <td>
+                                {% for assignment in sc.assignments.all %}
+                                <span style="display:inline-block;margin-right:0.3rem;">
+                                    {{ assignment.professor.name }}
+                                    <a href="{% url 'scheduling:assign_delete' assignment.pk %}"
+                                       title="Remover professor"
+                                       style="color:var(--danger-color);font-size:0.75rem;margin-left:0.15rem;text-decoration:none;">✕</a>
+                                </span>
+                                {% empty %}
+                                <span style="color:var(--text-secondary);font-style:italic;">Sem professor</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                                    <a href="{% url 'scheduling:assign_create' sc.pk %}" class="btn-icon">Atribuir</a>
+                                    <a href="{% url 'scheduling:class_edit' sc.pk %}" class="btn-icon">Editar</a>
+                                    <a href="{% url 'scheduling:class_delete' sc.pk %}" class="btn-icon btn-icon-danger">Excluir</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <p style="color:var(--text-secondary);font-size:0.85rem;">Total: {{ total_classes }} turma{% if total_classes != 1 %}s{% endif %} ofertada{% if total_classes != 1 %}s{% endif %}</p>
+
+    <div class="bulk-bar" id="bulk-bar">
+        <span id="bulk-count">0 selecionada(s)</span>
+        <button type="submit">Excluir selecionadas</button>
+    </div>
+</form>
+
+{% else %}
+<div class="empty-state">
+    <p>Nenhuma turma cadastrada nesta grade.</p>
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="{% url 'scheduling:bulk_import' schedule.pk %}" class="btn btn-primary">Importar Disciplinas de um Curso</a>
+        <a href="{% url 'scheduling:class_create' schedule.pk %}" class="btn btn-secondary">Adicionar Turma Manual</a>
+    </div>
+</div>
+{% endif %}
+
+<div style="margin-top:1rem;">
+    <a href="{% url 'scheduling:schedule_list' %}" style="color:var(--text-secondary);font-size:0.875rem;">← Voltar para Grades</a>
+</div>
+
+{% block extra_js %}
+<script>
+(function () {
+    const form = document.getElementById('bulk-form');
+    if (!form) return;
+    const bar = document.getElementById('bulk-bar');
+    const countLabel = document.getElementById('bulk-count');
+
+    function updateBar() {
+        const checked = form.querySelectorAll('.row-cb:checked');
+        const n = checked.length;
+        bar.classList.toggle('visible', n > 0);
+        countLabel.textContent = n + ' selecionada' + (n !== 1 ? 's' : '');
+    }
+
+    form.addEventListener('change', function (e) {
+        if (e.target.classList.contains('select-all-table')) {
+            const table = e.target.closest('table');
+            table.querySelectorAll('.row-cb').forEach(cb => cb.checked = e.target.checked);
+        }
+        updateBar();
+    });
+
+    form.querySelector('#bulk-form button[type=submit]')?.addEventListener('click', function (e) {
+        const n = form.querySelectorAll('.row-cb:checked').length;
+        if (!confirm(`Excluir ${n} turma(s) selecionada(s)? Esta ação não pode ser desfeita.`)) {
+            e.preventDefault();
+        }
+    });
+})();
+</script>
+{% endblock %}
+{% endblock %}

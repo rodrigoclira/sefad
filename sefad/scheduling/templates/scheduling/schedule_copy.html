@@ -1,0 +1,47 @@
+{% extends "courses/base.html" %}
+
+{% block title %}Copiar Grade - SEFAD{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Copiar Grade</h2>
+    <a href="{% url 'scheduling:schedule_detail' source.pk %}" class="btn btn-secondary">Voltar</a>
+</div>
+
+<div style="padding:0.75rem 1rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;margin-bottom:1.5rem;font-size:0.875rem;color:#1e40af;">
+    <strong>Origem:</strong> {{ source.name }} ({{ source.semester }}) —
+    {{ source.scheduled_classes.count }} turma(s) serão copiadas.
+</div>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">Nome</label>
+            {{ form.name }}
+            {% if form.name.errors %}<p class="form-error">{{ form.name.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Semestre</label>
+            {{ form.semester }}
+            {% if form.semester.help_text %}<p class="form-help">{{ form.semester.help_text }}</p>{% endif %}
+            {% if form.semester.errors %}<p class="form-error">{{ form.semester.errors }}</p>{% endif %}
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+            {{ form.copy_assignments }}
+            <label style="margin:0;font-size:0.9rem;">{{ form.copy_assignments.label }}</label>
+        </div>
+        {% if form.copy_assignments.help_text %}
+        <p class="form-help" style="margin-top:0.25rem;">{{ form.copy_assignments.help_text }}</p>
+        {% endif %}
+
+        <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary">Copiar Grade</button>
+            <a href="{% url 'scheduling:schedule_detail' source.pk %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
